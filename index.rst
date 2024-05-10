@@ -1,0 +1,37 @@
+.. Using AIRR-C Reference Sets documentation master file, created by
+   sphinx-quickstart on Tue Apr 30 11:40:23 2024.
+   You can adapt this file completely to your liking, but it should at least
+   contain the root `toctree` directive.
+
+Welcome to Using AIRR-C Reference Sets's documentation!
+=======================================================
+
+Introduction
+------------
+
+AIRR-C Reference Sets are the AIRR community endorsed human reference sets for the IGH, IGKappa and IGLambda loci. Currently, IgBLAST supports our new reference sets. In this Tutorial, we describe how to modify your IgBLAST, MiXCR and 10x Pipelines to use these new sets. Welcome to the future!
+
+
+.. toctree::
+   :maxdepth: 2
+   :caption: Contents:
+   igblast
+   immcantation
+   mixcr
+   10x
+
+Navigating OGRDB
+================
+
+IgBLAST tutorial (standalone)
+=============================
+
+Immcantation IgBLAST tutorial
+=============================
+
+Indices and tables
+==================
+
+* :ref:`genindex`
+* :ref:`modindex`
+* :ref:`search`
