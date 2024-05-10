@@ -9,16 +9,19 @@ Welcome to Using AIRR-C Reference Sets's documentation!
 Introduction
 ------------
 
-AIRR-C Reference Sets are the AIRR community endorsed human reference sets for the IGH, IGKappa and IGLambda loci. Currently, IgBLAST supports our new reference sets. In this Tutorial, we describe how to modify your IgBLAST, MiXCR and 10x Pipelines to use these new sets. Welcome to the future!
+AIRR-C Reference Sets are the AIRR community endorsed human reference sets for the IGH, IGKappa and IGLambda loci.
+Currently, IgBLAST supports our new reference sets. In this Tutorial, we describe how to modify your IgBLAST, MiXCR
+and 10x Pipelines to use these new sets. Welcome to the future!
 
 
 .. toctree::
-   :maxdepth: 2
-   :caption: Contents:
-   igblast
-   immcantation
-   mixcr
-   10x
+   :maxdepth: 3
+   :caption: Contents
+
+   pages/igblast
+   pages/immcantation
+   pages/mixcr
+   pages/10x
 
 Navigating OGRDB
 ================
