@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+
+<html lang="en" data-content_root="../">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Using the AIRR-C Reference Sets with Mixcr &#8212; Using AIRR-C Reference Sets 0.0 documentation</title>
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=61cd365c" />
+    <link rel="stylesheet" type="text/css" href="../_static/alabaster.css?v=12dfc556" />
+    <script src="../_static/documentation_options.js?v=837179f8"></script>
+    <script src="../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Using the AIRR-C Reference Sets in 10X" href="10x.html" />
+    <link rel="prev" title="Using the AIRR-C Reference Sets as standalone" href="immcantation.html" />
+   
+  <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
+  
+
+  
+  
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <section id="using-the-airr-c-reference-sets-with-mixcr">
+<h1>Using the AIRR-C Reference Sets with Mixcr<a class="headerlink" href="#using-the-airr-c-reference-sets-with-mixcr" title="Link to this heading">¶</a></h1>
+<section id="introduction">
+<h2>Introduction<a class="headerlink" href="#introduction" title="Link to this heading">¶</a></h2>
+<p>Mixcr is a widely-used tool for IG/TR analysis - they have their own references,
+which they distribute with the program. If you would like to use the AIRR-C Reference
+Sets, follow the tutorial below!</p>
+</section>
+<section id="installation">
+<h2>Installation<a class="headerlink" href="#installation" title="Link to this heading">¶</a></h2>
+<p>Mixcr installation requires that you have a license.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>wget<span class="w"> </span>https://github.com/milaboratory/mixcr/releases/download/v4.6.0/mixcr-4.6.0.zip
+unzip<span class="w"> </span>mixcr-4.6.0.zip
+<span class="c1">## Move to bin or add directory to your path</span>
+<span class="nb">export</span><span class="w"> </span><span class="nv">BIN</span><span class="o">=</span><span class="si">${</span><span class="nv">pwd</span><span class="si">}</span>
+mixcr<span class="w"> </span>activate-license
+</pre></div>
+</div>
+</section>
+<section id="downloading-and-processing-airr-c-reference-sets">
+<h2>Downloading and processing AIRR-C Reference Sets<a class="headerlink" href="#downloading-and-processing-airr-c-reference-sets" title="Link to this heading">¶</a></h2>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pip<span class="w"> </span>install<span class="w"> </span>biopython
+mkdir<span class="w"> </span>airrc_refs
+curl<span class="w"> </span>https://ogrdb.airr-community.org/api/germline/set/Human/IGH_VDJ/published/ex<span class="w"> </span>&gt;<span class="w"> </span>airrc_refs/human_VDJ.fasta
+curl<span class="w"> </span>https://ogrdb.airr-community.org/api/germline/set/Human/IGKappa_VJ/published/ex<span class="w"> </span>&gt;&gt;<span class="w"> </span>airrc_refs/human_IGKVJ.fast
+curl<span class="w"> </span>https://ogrdb.airr-community.org/api/germline/set/Human/IGLambda_VJ/published/ex<span class="w"> </span>&gt;&gt;<span class="w"> </span>airrc_refs/human_IGLVJ.fasta
+</pre></div>
+</div>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">Bio</span> <span class="kn">import</span> <span class="n">SeqIO</span>
+<span class="n">seqs</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">((</span><span class="n">p</span><span class="o">.</span><span class="n">id</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="n">p</span><span class="o">.</span><span class="n">seq</span><span class="p">))</span> <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">SeqIO</span><span class="o">.</span><span class="n">parse</span><span class="p">(</span><span class="s1">&#39;airrc_refs/human_VDJ.fasta&#39;</span><span class="p">,</span> <span class="s1">&#39;fasta&#39;</span><span class="p">))</span>
+<span class="k">for</span> <span class="n">gene</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;V&#39;</span><span class="p">,</span> <span class="s1">&#39;D&#39;</span><span class="p">,</span> <span class="s1">&#39;J&#39;</span><span class="p">]:</span>
+  <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;airrc_refs/</span><span class="si">{</span><span class="n">gene</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span><span class="si">}</span><span class="s1">-genes.IGH.fasta&#39;</span><span class="p">,</span> <span class="s1">&#39;w&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">k</span><span class="p">:</span>
+    <span class="p">[</span><span class="n">k</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;&gt;</span><span class="si">{</span><span class="n">seq_id</span><span class="si">}</span><span class="se">\n</span><span class="s1">&#39;</span> <span class="o">+</span> <span class="n">seqs</span><span class="p">[</span><span class="n">seq_id</span><span class="p">]</span> <span class="o">+</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span> <span class="k">for</span> <span class="n">seq_id</span> <span class="ow">in</span> <span class="n">seqs</span> <span class="k">if</span> <span class="n">seq_id</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span> <span class="o">==</span> <span class="n">gene</span><span class="p">]</span>
+
+<span class="n">seqs</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">((</span><span class="n">p</span><span class="o">.</span><span class="n">id</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="n">p</span><span class="o">.</span><span class="n">seq</span><span class="p">))</span> <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">SeqIO</span><span class="o">.</span><span class="n">parse</span><span class="p">(</span><span class="s1">&#39;airrc_refs/human_IGKVJ.fasta&#39;</span><span class="p">,</span> <span class="s1">&#39;fasta&#39;</span><span class="p">))</span>
+<span class="k">for</span> <span class="n">gene</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;V&#39;</span><span class="p">,</span> <span class="s1">&#39;D&#39;</span><span class="p">,</span> <span class="s1">&#39;J&#39;</span><span class="p">]:</span>
+  <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;airrc_refs/</span><span class="si">{</span><span class="n">gene</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span><span class="si">}</span><span class="s1">-genes.IGK.fasta&#39;</span><span class="p">,</span> <span class="s1">&#39;w&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">k</span><span class="p">:</span>
+    <span class="p">[</span><span class="n">k</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;&gt;</span><span class="si">{</span><span class="n">seq_id</span><span class="si">}</span><span class="se">\n</span><span class="s1">&#39;</span> <span class="o">+</span> <span class="n">seqs</span><span class="p">[</span><span class="n">seq_id</span><span class="p">]</span> <span class="o">+</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span> <span class="k">for</span> <span class="n">seq_id</span> <span class="ow">in</span> <span class="n">seqs</span> <span class="k">if</span> <span class="n">seq_id</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span> <span class="o">==</span> <span class="n">gene</span><span class="p">]</span>
+
+<span class="n">seqs</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">((</span><span class="n">p</span><span class="o">.</span><span class="n">id</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="n">p</span><span class="o">.</span><span class="n">seq</span><span class="p">))</span> <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">SeqIO</span><span class="o">.</span><span class="n">parse</span><span class="p">(</span><span class="s1">&#39;airrc_refs/human_IGLVJ.fasta&#39;</span><span class="p">,</span> <span class="s1">&#39;fasta&#39;</span><span class="p">))</span>
+<span class="k">for</span> <span class="n">gene</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;V&#39;</span><span class="p">,</span> <span class="s1">&#39;D&#39;</span><span class="p">,</span> <span class="s1">&#39;J&#39;</span><span class="p">]:</span>
+  <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;airrc_refs/</span><span class="si">{</span><span class="n">gene</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span><span class="si">}</span><span class="s1">-genes.IGL.fasta&#39;</span><span class="p">,</span> <span class="s1">&#39;w&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">k</span><span class="p">:</span>
+    <span class="p">[</span><span class="n">k</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;&gt;</span><span class="si">{</span><span class="n">seq_id</span><span class="si">}</span><span class="se">\n</span><span class="s1">&#39;</span> <span class="o">+</span> <span class="n">seqs</span><span class="p">[</span><span class="n">seq_id</span><span class="p">]</span> <span class="o">+</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span> <span class="k">for</span> <span class="n">seq_id</span> <span class="ow">in</span> <span class="n">seqs</span> <span class="k">if</span> <span class="n">seq_id</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span> <span class="o">==</span> <span class="n">gene</span><span class="p">]</span>
+</pre></div>
+</div>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>mixcr<span class="w"> </span>buildLibrary<span class="w"> </span>--debug<span class="w"> </span>--v-genes-from-fasta<span class="w"> </span>airrc_refs/v-genes.IGH.fasta<span class="w"> </span>--v-gene-feature<span class="w"> </span>VRegion<span class="w"> </span>--j-genes-from-fasta<span class="w"> </span>airrc_refs/j-genes.IGH.fasta<span class="w"> </span>--d-genes-from-fasta<span class="w"> </span>airrc_refs/d-genes.IGH.fasta<span class="w"> </span>--c-genes-from-species<span class="w"> </span>human<span class="w"> </span>--chain<span class="w"> </span>IGH<span class="w"> </span>--taxon-id<span class="w"> </span><span class="m">9606</span><span class="w"> </span>--species<span class="w"> </span>human<span class="w"> </span>airrc-IGH.json.gz<span class="w"> </span>-f
+mixcr<span class="w"> </span>buildLibrary<span class="w"> </span>--debug<span class="w"> </span>--v-genes-from-fasta<span class="w"> </span>airrc_refs/v-genes.IGK.fasta<span class="w"> </span>--v-gene-feature<span class="w"> </span>VRegion<span class="w"> </span>--j-genes-from-fasta<span class="w"> </span>airrc_refs/j-genes.IGK.fasta<span class="w"> </span>--c-genes-from-species<span class="w"> </span>human<span class="w"> </span>--chain<span class="w"> </span>IGK<span class="w"> </span>--taxon-id<span class="w"> </span><span class="m">9606</span><span class="w"> </span>--species<span class="w"> </span>human<span class="w"> </span>airrc-IGK.json.gz<span class="w"> </span>-f
+mixcr<span class="w"> </span>buildLibrary<span class="w"> </span>--debug<span class="w"> </span>--v-genes-from-fasta<span class="w"> </span>airrc_refs/v-genes.IGL.fasta<span class="w"> </span>--v-gene-feature<span class="w"> </span>VRegion<span class="w"> </span>--j-genes-from-fasta<span class="w"> </span>airrc_refs/j-genes.IGL.fasta<span class="w"> </span>--c-genes-from-species<span class="w"> </span>human<span class="w"> </span>--chain<span class="w"> </span>IGL<span class="w"> </span>--taxon-id<span class="w"> </span><span class="m">9606</span><span class="w"> </span>--species<span class="w"> </span>human<span class="w"> </span>airrc-IGL.json.gz<span class="w"> </span>-f
+mixcr<span class="w"> </span>mergeLibrary<span class="w"> </span>airrc-IGH.json.gz<span class="w"> </span>airrc-IGK.json.gz<span class="w"> </span>airrc-IGL.json.gz<span class="w"> </span>airrc.json.gz
+</pre></div>
+</div>
+<section id="test">
+<h3>Test<a class="headerlink" href="#test" title="Link to this heading">¶</a></h3>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>wget<span class="w"> </span>-nc<span class="w"> </span>ftp://ftp.sra.ebi.ac.uk/vol1/fastq/ERR595/003/ERR5952573/ERR5952573_1.fastq.gz
+wget<span class="w"> </span>-nc<span class="w"> </span>ftp://ftp.sra.ebi.ac.uk/vol1/fastq/ERR595/003/ERR5952573/ERR5952573_2.fastq.gz
+mixcr<span class="w"> </span>analyze<span class="w"> </span>takara-human-rna-bcr-umi-smartseq<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>ERR5952573_1.fastq.gz<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>ERR5952573_2.fastq.gz<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>results_default
+</pre></div>
+</div>
+</section>
+</section>
+</section>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="../index.html">Using AIRR-C Reference Sets</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+<p class="caption" role="heading"><span class="caption-text">Contents</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="ogrdb.html">OGRDB API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="igblast.html">IgBLAST stand-alone</a></li>
+<li class="toctree-l1"><a class="reference internal" href="immcantation.html">Using the AIRR-C Reference Sets as standalone</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Using the AIRR-C Reference Sets with Mixcr</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#introduction">Introduction</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#installation">Installation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#downloading-and-processing-airr-c-reference-sets">Downloading and processing AIRR-C Reference Sets</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#test">Test</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="10x.html">Using the AIRR-C Reference Sets in 10X</a></li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="immcantation.html" title="previous chapter">Using the AIRR-C Reference Sets as standalone</a></li>
+      <li>Next: <a href="10x.html" title="next chapter">Using the AIRR-C Reference Sets in 10X</a></li>
+  </ul></li>
+</ul>
+</div>
+<search id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</search>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &#169;2024, Eve Richardson, William Lees.
+      
+      |
+      Powered by <a href="https://www.sphinx-doc.org/">Sphinx 7.3.7</a>
+      &amp; <a href="https://alabaster.readthedocs.io">Alabaster 0.7.16</a>
+      
+      |
+      <a href="../_sources/pages/mixcr.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

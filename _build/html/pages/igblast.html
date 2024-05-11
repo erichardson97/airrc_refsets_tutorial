@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+
+<html lang="en" data-content_root="../">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>IgBLAST stand-alone &#8212; Using AIRR-C Reference Sets 0.0 documentation</title>
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=61cd365c" />
+    <link rel="stylesheet" type="text/css" href="../_static/alabaster.css?v=12dfc556" />
+    <script src="../_static/documentation_options.js?v=837179f8"></script>
+    <script src="../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Using the AIRR-C Reference Sets as standalone" href="immcantation.html" />
+    <link rel="prev" title="OGRDB API" href="ogrdb.html" />
+   
+  <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
+  
+
+  
+  
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <section id="igblast-stand-alone">
+<h1>IgBLAST stand-alone<a class="headerlink" href="#igblast-stand-alone" title="Link to this heading">¶</a></h1>
+<section id="introduction">
+<h2>Introduction<a class="headerlink" href="#introduction" title="Link to this heading">¶</a></h2>
+<p>IgBLAST developers have made strides to include AIRR-C Reference Sets for users and
+you can easily specify this with the dropdown button on the IgBLAST webserver.
+For further information about using IgBLAST, refer to their guide.</p>
+</section>
+<section id="installation">
+<h2>Installation<a class="headerlink" href="#installation" title="Link to this heading">¶</a></h2>
+<p>Assuming you don’t already have an IgBLAST installation, download IgBLAST and
+set your $IGDATA variable so that your interpreter knows where the binary lives.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>wget<span class="w"> </span>https://ftp.ncbi.nih.gov/blast/executables/igblast/release/LATEST/ncbi-igblast-1.22.0-x64-linux.tar.gz
+tar<span class="w"> </span>-xvzf<span class="w"> </span>ncbi-igblast-1.22.0-x64-linux.tar.gz
+<span class="nb">export</span><span class="w"> </span><span class="nv">IGDATA</span><span class="o">=</span><span class="si">${</span><span class="nv">pwd</span><span class="si">}</span>/ncbi-igblast-1.22.0
+</pre></div>
+</div>
+<p>To follow the remainder of the steps, you will also need to install receptor_utils.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">pip</span> <span class="n">install</span> <span class="n">receptor_utils</span>
+</pre></div>
+</div>
+</section>
+<section id="downloading-the-airr-c-reference-sets">
+<h2>Downloading the AIRR-C Reference Sets<a class="headerlink" href="#downloading-the-airr-c-reference-sets" title="Link to this heading">¶</a></h2>
+<p>When you initially set up IgBLAST (if it wasn’t just now!), you will have
+downloaded particular germline databases for the program which you will have supplied
+to IgBLAST via its -germline_db_V, -germline_db_J and -germline_db_D arguments. To
+use AIRR-C Reference Sets, we need to download the AIRR-C versions of these BLAST databases.
+The developers of IgBLAST kindly make these available via the ftp server - or you can build
+your own.</p>
+<p>In addition to these databases, IgBLAST has its own data directory called “internal_data”,
+which you are warned not to touch except for making your own custom species directories, as
+well as “auxiliary_data”. To use the AIRR-C Reference Sets with full IgBLAST capabilities (i.e.
+CDR annotation), you will need to create two file types using the receptor_utils package.</p>
+<p>These are:</p>
+<ol class="arabic simple">
+<li><p>.ndm files
+The ndm file contains CDR coordinates for the V genes in your reference.</p></li>
+<li><dl class="simple">
+<dt>.aux files</dt><dd><p>The aux file contains CDR3 coordinates for the J genes in your reference.</p>
+</dd>
+</dl>
+</li>
+</ol>
+<p>You can supply the paths to these new files when you run IgBLAST as a standalone using the
+“-custom_internal_data” and “-auxiliary_data” flags.</p>
+</section>
+<section id="creating-the-ndm-file">
+<h2>Creating the .ndm file<a class="headerlink" href="#creating-the-ndm-file" title="Link to this heading">¶</a></h2>
+<p>The .ndm file contains the CDR/FWR annotations for the V gene database.
+The best way to do this is using the AIRR-formatted JSON file retrieved by the OGRDB API.
+Retrieve for all three loci, run receptor_util’s make_ndm executable, and combine into a single .ndm file.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>curl<span class="w"> </span>https://ogrdb.airr-community.org/api/germline/set/Human/IGH_VDJ/published/airr_ex<span class="w"> </span>&gt;<span class="w"> </span>human_VDJ.json
+curl<span class="w"> </span>https://ogrdb.airr-community.org/api/germline/set/Human/IGKappa_VJ/published/airr_ex<span class="w"> </span>&gt;<span class="w"> </span>human_kappa.json
+curl<span class="w"> </span>https://ogrdb.airr-community.org/api/germline/set/Human/IGLambda_VJ/published/airr_ex<span class="w"> </span>&gt;<span class="w"> </span>human_lambda.json
+
+
+make_igblast_ndm<span class="w"> </span>human_VDJ.json<span class="w"> </span>VH<span class="w"> </span>human_vdj.ndm.imgt
+make_igblast_ndm<span class="w"> </span>human_kappa.json<span class="w"> </span>VL<span class="w"> </span>human_vkappa.ndm.imgt
+make_igblast_ndm<span class="w"> </span>human_lambda.json<span class="w"> </span>VL<span class="w"> </span>human_vlambda.ndm.imgt
+cat<span class="w"> </span>human_vdj.ndm.imgt<span class="w"> </span>&gt;<span class="w"> </span>airrc_human.ndm.imgt
+cat<span class="w"> </span>human_vkappa.ndm.imgt<span class="w"> </span>&gt;&gt;<span class="w"> </span>airrc_human.ndm.imgt
+cat<span class="w"> </span>human_vlambda.ndm.imgt<span class="w"> </span>&gt;&gt;<span class="w"> </span>airrc_human.ndm.imgt
+mkdir<span class="w"> </span><span class="nv">$IGDATA</span>/internal_data/airrc_human
+mv<span class="w"> </span>airrc_human.ndm.imgt<span class="w"> </span><span class="nv">$IGDATA</span>/internal_data/airrc_human
+</pre></div>
+</div>
+</section>
+<section id="creating-the-aux-file">
+<h2>Creating the .aux file<a class="headerlink" href="#creating-the-aux-file" title="Link to this heading">¶</a></h2>
+</section>
+</section>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="../index.html">Using AIRR-C Reference Sets</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+<p class="caption" role="heading"><span class="caption-text">Contents</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="ogrdb.html">OGRDB API</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">IgBLAST stand-alone</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#introduction">Introduction</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#installation">Installation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#downloading-the-airr-c-reference-sets">Downloading the AIRR-C Reference Sets</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#creating-the-ndm-file">Creating the .ndm file</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#creating-the-aux-file">Creating the .aux file</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="immcantation.html">Using the AIRR-C Reference Sets as standalone</a></li>
+<li class="toctree-l1"><a class="reference internal" href="mixcr.html">Using the AIRR-C Reference Sets with Mixcr</a></li>
+<li class="toctree-l1"><a class="reference internal" href="10x.html">Using the AIRR-C Reference Sets in 10X</a></li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="ogrdb.html" title="previous chapter">OGRDB API</a></li>
+      <li>Next: <a href="immcantation.html" title="next chapter">Using the AIRR-C Reference Sets as standalone</a></li>
+  </ul></li>
+</ul>
+</div>
+<search id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</search>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &#169;2024, Eve Richardson, William Lees.
+      
+      |
+      Powered by <a href="https://www.sphinx-doc.org/">Sphinx 7.3.7</a>
+      &amp; <a href="https://alabaster.readthedocs.io">Alabaster 0.7.16</a>
+      
+      |
+      <a href="../_sources/pages/igblast.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

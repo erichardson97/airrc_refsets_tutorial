@@ -1,0 +1,9 @@
+
+Using the AIRR-C Reference Sets in 10X
+=======================================================
+
+10X
+------------
+
+10X V(D)J has their own reference set, that you can download and examine with
+your CellRanger license.
