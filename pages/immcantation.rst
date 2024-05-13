@@ -36,6 +36,7 @@ You will also need to install IgBLAST:
 And receptor_utils:
 
 .. code-block:: bash
+
     pip install receptor_utils
 
 
@@ -120,3 +121,15 @@ We then need to make all of our BLAST databases and accessory files (.ndm and .a
 
 .. _Change-O: https://changeo.readthedocs.io/en/stable/
 .. _installation: https://changeo.readthedocs.io/en/stable/install.html
+
+
+Testing
+-------
+
+Let's test this using test data courtesy of the Immcantation team.
+
+.. code-block:: bash
+
+    curl https://zenodo.org/records/10046916/files/input.fasta?download=1 > example_data.fasta
+    head -n 51 example_data.fasta > example_data_mini.fasta
+    AssignGenes.py igblast -s example_data_mini.fasta -b $IGDATA --organism human --loci ig --format airr

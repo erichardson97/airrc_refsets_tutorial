@@ -13,7 +13,7 @@ Installation
 ---------------------------------------------------------
 
 Assuming you don't already have an IgBLAST installation, download IgBLAST and
-set your $IGDATA variable so that your interpreter knows where the binary lives.
+set your $IGDATA variable so that your interpreter knows where to find the internal_data directory.
 
 .. code-block:: bash
 

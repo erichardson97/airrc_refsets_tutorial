@@ -46,13 +46,14 @@
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <p class="caption" role="heading"><span class="caption-text">Contents</span></p>
 <ul class="current">
-<li class="toctree-l1"><a class="reference internal" href="ogrdb.html">OGRDB API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ogrdb.html">OGRDB REST API</a></li>
 <li class="toctree-l1"><a class="reference internal" href="igblast.html">IgBLAST stand-alone</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Change-O</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#introduction">Introduction</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#installation">Installation</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#downloading-the-default-reference-sets">Downloading the default reference sets</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#downloading-the-airr-c-reference-sets">Downloading the AIRR-C Reference Sets</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#testing">Testing</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="mixcr.html">MiXCR</a></li>
@@ -110,11 +111,23 @@ tar<span class="w"> </span>-xzvf<span class="w"> </span>ncbi-igblast-1.22.0-x64-
 </pre></div>
 </div>
 <p>And receptor_utils:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pip<span class="w"> </span>install<span class="w"> </span>receptor_utils
+</pre></div>
+</div>
 </section>
 <section id="downloading-the-default-reference-sets">
 <h2>Downloading the default reference sets<a class="headerlink" href="#downloading-the-default-reference-sets" title="Link to this heading"></a></h2>
 <p>Immcantation requires a reference of C genes. This locus is not included in the AIRR-C Reference
 Set.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>mkdir $IGDATA/database
+mkdir $IGDATA/database/human
+fetch_imgtdb.sh -o imgt_database
+clean_imgtdb.py imgt_database/human/constant/imgt_human_IGHC.fasta imgt_database/human/constant/imgt_human_IGHC.fasta
+clean_imgtdb.py imgt_database/human/constant/imgt_human_IGKC.fasta imgt_database/human/constant/imgt_human_IGKC.fasta
+clean_imgtdb.py imgt_database/human/constant/imgt_human_IGLC.fasta imgt_database/human/constant/imgt_human_IGLC.fasta
+cat imgt_database/human/constant/imgt_human_IGHC.fasta imgt_database/human/constant/imgt_human_IGLC.fasta imgt_database/human/constant/imgt_human_IGKC.fasta &gt; database/human/imgt_human_ig_c.fasta
+</pre></div>
+</div>
 </section>
 <section id="downloading-the-airr-c-reference-sets">
 <h2>Downloading the AIRR-C Reference Sets<a class="headerlink" href="#downloading-the-airr-c-reference-sets" title="Link to this heading"></a></h2>
@@ -165,6 +178,15 @@ cat<span class="w"> </span>human_vkappa.ndm.imgt<span class="w"> </span>&gt;&gt;
 cat<span class="w"> </span>human_vlambda.ndm.imgt<span class="w"> </span>&gt;&gt;<span class="w"> </span>airrc_human.ndm.imgt
 
 mv<span class="w"> </span>airrc_human.ndm.imgt<span class="w"> </span><span class="nv">$IGDATA</span>/internal_data/human/human.ndm.imgt
+</pre></div>
+</div>
+</section>
+<section id="testing">
+<h2>Testing<a class="headerlink" href="#testing" title="Link to this heading"></a></h2>
+<p>Let’s test this using test data courtesy of the Immcantation team.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>curl<span class="w"> </span>https://zenodo.org/records/10046916/files/input.fasta?download<span class="o">=</span><span class="m">1</span><span class="w"> </span>&gt;<span class="w"> </span>example_data.fasta
+head<span class="w"> </span>-n<span class="w"> </span><span class="m">51</span><span class="w"> </span>example_data.fasta<span class="w"> </span>&gt;<span class="w"> </span>example_data_mini.fasta
+AssignGenes.py<span class="w"> </span>igblast<span class="w"> </span>-s<span class="w"> </span>example_data_mini.fasta<span class="w"> </span>-b<span class="w"> </span><span class="nv">$IGDATA</span><span class="w"> </span>--organism<span class="w"> </span>human<span class="w"> </span>--loci<span class="w"> </span>ig<span class="w"> </span>--format<span class="w"> </span>airr
 </pre></div>
 </div>
 </section>

@@ -36,6 +36,7 @@ You will also need to install IgBLAST:
 And receptor_utils:
 
 .. code-block:: bash
+
     pip install receptor_utils
 
 
@@ -46,8 +47,14 @@ Immcantation requires a reference of C genes. This locus is not included in the 
 Set.
 
 .. code-block::
+
+    mkdir $IGDATA/database
+    mkdir $IGDATA/database/human
     fetch_imgtdb.sh -o imgt_database
-    edit_imgt_file.pl IMGT_Human_IGHV.fasta > ~/share/igblast/fasta/imgt_human_ig_v.fasta
+    clean_imgtdb.py imgt_database/human/constant/imgt_human_IGHC.fasta imgt_database/human/constant/imgt_human_IGHC.fasta
+    clean_imgtdb.py imgt_database/human/constant/imgt_human_IGKC.fasta imgt_database/human/constant/imgt_human_IGKC.fasta
+    clean_imgtdb.py imgt_database/human/constant/imgt_human_IGLC.fasta imgt_database/human/constant/imgt_human_IGLC.fasta
+    cat imgt_database/human/constant/imgt_human_IGHC.fasta imgt_database/human/constant/imgt_human_IGLC.fasta imgt_database/human/constant/imgt_human_IGKC.fasta > database/human/imgt_human_ig_c.fasta
 
 
 Downloading the AIRR-C Reference Sets
@@ -114,3 +121,15 @@ We then need to make all of our BLAST databases and accessory files (.ndm and .a
 
 .. _Change-O: https://changeo.readthedocs.io/en/stable/
 .. _installation: https://changeo.readthedocs.io/en/stable/install.html
+
+
+Testing
+-------
+
+Let's test this using test data courtesy of the Immcantation team.
+
+.. code-block:: bash
+
+    curl https://zenodo.org/records/10046916/files/input.fasta?download=1 > example_data.fasta
+    head -n 51 example_data.fasta > example_data_mini.fasta
+    AssignGenes.py igblast -s example_data_mini.fasta -b $IGDATA --organism human --loci ig --format airr

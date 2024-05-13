@@ -23,8 +23,5 @@ In this Tutorial, we describe how to modify your IgBLAST, MiXCR and 10x pipeline
    pages/mixcr
    pages/10x
 
-* :ref:`genindex`
-* :ref:`modindex`
-* :ref:`search`
 
 .. _paper: https://www.frontiersin.org/journals/immunology/articles/10.3389/fimmu.2023.1330153/full
