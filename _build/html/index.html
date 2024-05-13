@@ -1,75 +1,96 @@
 <!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="./">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-<html lang="en" data-content_root="./">
-  <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AIRR Community Meeting 2024 AIRR-C Reference Set Tutorials &mdash; Using AIRR-C Reference Sets 0.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=92fd9be5" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=19f00094" />
 
-    <title>Welcome to Using AIRR-C Reference Sets’s documentation! &#8212; Using AIRR-C Reference Sets 0.0 documentation</title>
-    <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=61cd365c" />
-    <link rel="stylesheet" type="text/css" href="_static/alabaster.css?v=12dfc556" />
-    <script src="_static/documentation_options.js?v=837179f8"></script>
-    <script src="_static/doctools.js?v=9a2dae69"></script>
-    <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+  
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="_static/jquery.js?v=5d32c60e"></script>
+        <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="_static/documentation_options.js?v=837179f8"></script>
+        <script src="_static/doctools.js?v=9a2dae69"></script>
+        <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="OGRDB API" href="pages/ogrdb.html" />
-   
-  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
-  
+    <link rel="next" title="OGRDB API" href="pages/ogrdb.html" /> 
+</head>
 
-  
-  
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
 
-  </head><body>
-  
-
-    <div class="document">
-      <div class="documentwrapper">
-        <div class="bodywrapper">
           
+          
+          <a href="#" class="icon icon-home">
+            Using AIRR-C Reference Sets
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="pages/ogrdb.html">OGRDB API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pages/igblast.html">IgBLAST stand-alone</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pages/immcantation.html">Change-O</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pages/mixcr.html">MiXCR</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pages/10x.html">10X</a></li>
+</ul>
 
-          <div class="body" role="main">
-            
-  <section id="welcome-to-using-airr-c-reference-sets-s-documentation">
-<h1>Welcome to Using AIRR-C Reference Sets’s documentation!<a class="headerlink" href="#welcome-to-using-airr-c-reference-sets-s-documentation" title="Link to this heading">¶</a></h1>
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="#">Using AIRR-C Reference Sets</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="#" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">AIRR Community Meeting 2024 AIRR-C Reference Set Tutorials</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/index.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="airr-community-meeting-2024-airr-c-reference-set-tutorials">
+<h1>AIRR Community Meeting 2024 AIRR-C Reference Set Tutorials<a class="headerlink" href="#airr-community-meeting-2024-airr-c-reference-set-tutorials" title="Link to this heading"></a></h1>
 <section id="introduction">
-<h2>Introduction<a class="headerlink" href="#introduction" title="Link to this heading">¶</a></h2>
-<p>AIRR-C Reference Sets are the AIRR community endorsed human reference sets for the IGH, IGKappa and IGLambda loci.
-Currently, IgBLAST supports our new reference sets. In this Tutorial, we describe how to modify your IgBLAST, MiXCR
-and 10x Pipelines to use these new sets. Welcome to the future!</p>
+<h2>Introduction<a class="headerlink" href="#introduction" title="Link to this heading"></a></h2>
+<p>AIRR-C Reference Sets are the AIRR Community-endorsed human reference sets for the IGH, IGK and IGL loci as per
+this <a class="reference external" href="https://www.frontiersin.org/journals/immunology/articles/10.3389/fimmu.2023.1330153/full">paper</a>.
+In this Tutorial, we describe how to modify your IgBLAST, MiXCR and 10x pipelines to use these new sets.</p>
 <div class="toctree-wrapper compound">
 <p class="caption" role="heading"><span class="caption-text">Contents</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="pages/ogrdb.html">OGRDB API</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="pages/ogrdb.html#introduction">Introduction</a></li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="pages/igblast.html">IgBLAST stand-alone</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="pages/igblast.html#introduction">Introduction</a></li>
-<li class="toctree-l2"><a class="reference internal" href="pages/igblast.html#installation">Installation</a></li>
-<li class="toctree-l2"><a class="reference internal" href="pages/igblast.html#downloading-the-airr-c-reference-sets">Downloading the AIRR-C Reference Sets</a></li>
-<li class="toctree-l2"><a class="reference internal" href="pages/igblast.html#creating-the-ndm-file">Creating the .ndm file</a></li>
-<li class="toctree-l2"><a class="reference internal" href="pages/igblast.html#creating-the-aux-file">Creating the .aux file</a></li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="pages/immcantation.html">Using the AIRR-C Reference Sets as standalone</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="pages/immcantation.html#introduction">Introduction</a></li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="pages/mixcr.html">Using the AIRR-C Reference Sets with Mixcr</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="pages/mixcr.html#introduction">Introduction</a></li>
-<li class="toctree-l2"><a class="reference internal" href="pages/mixcr.html#installation">Installation</a></li>
-<li class="toctree-l2"><a class="reference internal" href="pages/mixcr.html#downloading-and-processing-airr-c-reference-sets">Downloading and processing AIRR-C Reference Sets</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="pages/mixcr.html#test">Test</a></li>
-</ul>
-</li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="pages/10x.html">Using the AIRR-C Reference Sets in 10X</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="pages/10x.html#x">10X</a></li>
-</ul>
-</li>
+<li class="toctree-l1"><a class="reference internal" href="pages/ogrdb.html">OGRDB API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pages/igblast.html">IgBLAST stand-alone</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pages/immcantation.html">Change-O</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pages/mixcr.html">MiXCR</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pages/10x.html">10X</a></li>
 </ul>
 </div>
 <ul class="simple">
@@ -81,75 +102,33 @@ and 10x Pipelines to use these new sets. Welcome to the future!</p>
 </section>
 
 
+           </div>
           </div>
-          
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="pages/ogrdb.html" class="btn btn-neutral float-right" title="OGRDB API" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2024, Eve Richardson, William Lees.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
         </div>
       </div>
-      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
-        <div class="sphinxsidebarwrapper">
-<h1 class="logo"><a href="#">Using AIRR-C Reference Sets</a></h1>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
 
-
-
-
-
-
-
-
-<h3>Navigation</h3>
-<p class="caption" role="heading"><span class="caption-text">Contents</span></p>
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="pages/ogrdb.html">OGRDB API</a></li>
-<li class="toctree-l1"><a class="reference internal" href="pages/igblast.html">IgBLAST stand-alone</a></li>
-<li class="toctree-l1"><a class="reference internal" href="pages/immcantation.html">Using the AIRR-C Reference Sets as standalone</a></li>
-<li class="toctree-l1"><a class="reference internal" href="pages/mixcr.html">Using the AIRR-C Reference Sets with Mixcr</a></li>
-<li class="toctree-l1"><a class="reference internal" href="pages/10x.html">Using the AIRR-C Reference Sets in 10X</a></li>
-</ul>
-
-<div class="relations">
-<h3>Related Topics</h3>
-<ul>
-  <li><a href="#">Documentation overview</a><ul>
-      <li>Next: <a href="pages/ogrdb.html" title="next chapter">OGRDB API</a></li>
-  </ul></li>
-</ul>
-</div>
-<search id="searchbox" style="display: none" role="search">
-  <h3 id="searchlabel">Quick search</h3>
-    <div class="searchformwrapper">
-    <form class="search" action="search.html" method="get">
-      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
-      <input type="submit" value="Go" />
-    </form>
-    </div>
-</search>
-<script>document.getElementById('searchbox').style.display = "block"</script>
-
-
-
-
-
-
-
-
-        </div>
-      </div>
-      <div class="clearer"></div>
-    </div>
-    <div class="footer">
-      &#169;2024, Eve Richardson, William Lees.
-      
-      |
-      Powered by <a href="https://www.sphinx-doc.org/">Sphinx 7.3.7</a>
-      &amp; <a href="https://alabaster.readthedocs.io">Alabaster 0.7.16</a>
-      
-      |
-      <a href="_sources/index.rst.txt"
-          rel="nofollow">Page source</a>
-    </div>
-
-    
-
-    
-  </body>
+</body>
 </html>

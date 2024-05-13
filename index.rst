@@ -3,19 +3,18 @@
    You can adapt this file completely to your liking, but it should at least
    contain the root `toctree` directive.
 
-Welcome to Using AIRR-C Reference Sets's documentation!
-=======================================================
+AIRR Community Meeting 2024 AIRR-C Reference Set Tutorials
+=========================================================================
 
 Introduction
 ------------
 
-AIRR-C Reference Sets are the AIRR community endorsed human reference sets for the IGH, IGKappa and IGLambda loci.
-Currently, IgBLAST supports our new reference sets. In this Tutorial, we describe how to modify your IgBLAST, MiXCR
-and 10x Pipelines to use these new sets. Welcome to the future!
-
+AIRR-C Reference Sets are the AIRR Community-endorsed human reference sets for the IGH, IGK and IGL loci as per
+this `paper`_.
+In this Tutorial, we describe how to modify your IgBLAST, MiXCR and 10x pipelines to use these new sets.
 
 .. toctree::
-   :maxdepth: 3
+   :maxdepth: 1
    :caption: Contents
 
    pages/ogrdb
@@ -27,3 +26,5 @@ and 10x Pipelines to use these new sets. Welcome to the future!
 * :ref:`genindex`
 * :ref:`modindex`
 * :ref:`search`
+
+.. _paper: https://www.frontiersin.org/journals/immunology/articles/10.3389/fimmu.2023.1330153/full

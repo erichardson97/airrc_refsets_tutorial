@@ -1,118 +1,204 @@
 <!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-<html lang="en" data-content_root="../">
-  <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Change-O &mdash; Using AIRR-C Reference Sets 0.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=92fd9be5" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=19f00094" />
 
-    <title>Using the AIRR-C Reference Sets as standalone &#8212; Using AIRR-C Reference Sets 0.0 documentation</title>
-    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=61cd365c" />
-    <link rel="stylesheet" type="text/css" href="../_static/alabaster.css?v=12dfc556" />
-    <script src="../_static/documentation_options.js?v=837179f8"></script>
-    <script src="../_static/doctools.js?v=9a2dae69"></script>
-    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+  
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="../_static/documentation_options.js?v=837179f8"></script>
+        <script src="../_static/doctools.js?v=9a2dae69"></script>
+        <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="Using the AIRR-C Reference Sets as standalone" href="mixcr.html" />
-    <link rel="prev" title="Using the AIRR-C Reference Sets as standalone" href="igblast.html" />
-   
-  <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
-  
+    <link rel="next" title="MiXCR" href="mixcr.html" />
+    <link rel="prev" title="IgBLAST stand-alone" href="igblast.html" /> 
+</head>
 
-  
-  
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
 
-  </head><body>
-  
-
-    <div class="document">
-      <div class="documentwrapper">
-        <div class="bodywrapper">
           
-
-          <div class="body" role="main">
-            
-  <section id="using-the-airr-c-reference-sets-as-standalone">
-<h1>Using the AIRR-C Reference Sets as standalone<a class="headerlink" href="#using-the-airr-c-reference-sets-as-standalone" title="Link to this heading">¶</a></h1>
-<section id="introduction">
-<h2>Introduction<a class="headerlink" href="#introduction" title="Link to this heading">¶</a></h2>
-<p>It is increasingly obvious that gene polymorphisms in the IG and TR loci play an important role in shaping the adaptive immune response in disease and vaccination. We encourage AIRR-seq practitioners to think carefully about the reference databases of IG and TR genes that they use in their analyses. For IG analyses, the AIRR-C Reference Set has been curated via a reproducible process, and you can see details about the curation in the AIRR-formatted JSON files.</p>
-</section>
-</section>
-
-
-          </div>
           
-        </div>
-      </div>
-      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
-        <div class="sphinxsidebarwrapper">
-<h1 class="logo"><a href="../index.html">Using AIRR-C Reference Sets</a></h1>
-
-
-
-
-
-
-
-
-<h3>Navigation</h3>
-<p class="caption" role="heading"><span class="caption-text">Contents</span></p>
+          <a href="../index.html" class="icon icon-home">
+            Using AIRR-C Reference Sets
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents</span></p>
 <ul class="current">
-<li class="toctree-l1"><a class="reference internal" href="igblast.html">Using the AIRR-C Reference Sets as standalone</a></li>
-<li class="toctree-l1 current"><a class="current reference internal" href="#">Using the AIRR-C Reference Sets as standalone</a><ul>
+<li class="toctree-l1"><a class="reference internal" href="ogrdb.html">OGRDB API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="igblast.html">IgBLAST stand-alone</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Change-O</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#introduction">Introduction</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#installation">Installation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#downloading-the-default-reference-sets">Downloading the default reference sets</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#downloading-the-airr-c-reference-sets">Downloading the AIRR-C Reference Sets</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="mixcr.html">Using the AIRR-C Reference Sets as standalone</a></li>
-<li class="toctree-l1"><a class="reference internal" href="10x.html">Using the AIRR-C Reference Sets as standalone</a></li>
+<li class="toctree-l1"><a class="reference internal" href="mixcr.html">MiXCR</a></li>
+<li class="toctree-l1"><a class="reference internal" href="10x.html">10X</a></li>
 </ul>
-
-<div class="relations">
-<h3>Related Topics</h3>
-<ul>
-  <li><a href="../index.html">Documentation overview</a><ul>
-      <li>Previous: <a href="igblast.html" title="previous chapter">Using the AIRR-C Reference Sets as standalone</a></li>
-      <li>Next: <a href="mixcr.html" title="next chapter">Using the AIRR-C Reference Sets as standalone</a></li>
-  </ul></li>
-</ul>
-</div>
-<search id="searchbox" style="display: none" role="search">
-  <h3 id="searchlabel">Quick search</h3>
-    <div class="searchformwrapper">
-    <form class="search" action="../search.html" method="get">
-      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
-      <input type="submit" value="Go" />
-    </form>
-    </div>
-</search>
-<script>document.getElementById('searchbox').style.display = "block"</script>
-
-
-
-
-
-
-
 
         </div>
       </div>
-      <div class="clearer"></div>
-    </div>
-    <div class="footer">
-      &#169;2024, Eve Richardson, William Lees.
-      
-      |
-      Powered by <a href="https://www.sphinx-doc.org/">Sphinx 7.3.7</a>
-      &amp; <a href="https://alabaster.readthedocs.io">Alabaster 0.7.16</a>
-      
-      |
-      <a href="../_sources/pages/immcantation.rst.txt"
-          rel="nofollow">Page source</a>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">Using AIRR-C Reference Sets</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Change-O</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/pages/immcantation.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="change-o">
+<h1>Change-O<a class="headerlink" href="#change-o" title="Link to this heading"></a></h1>
+<section id="introduction">
+<h2>Introduction<a class="headerlink" href="#introduction" title="Link to this heading"></a></h2>
+<p><a class="reference external" href="https://changeo.readthedocs.io/en/stable/">Change-O</a> is another extremely popular toolkit for BCR repertoire analysis. There is currently less
+flexibility for inclusion of AIRR-C Reference Sets in Change-O.
+As of June 2024, if you want to use Change-O without amending the source code, you will unfortunately need to replace the “Human” data in the reference you have downloaded during set-up with
+AIRR-C Reference Sets.
+Change-O uses IgBLAST for gene assignment, so there is substantial overlap with the standalone tutorial.</p>
+</section>
+<section id="installation">
+<h2>Installation<a class="headerlink" href="#installation" title="Link to this heading"></a></h2>
+<p>Please refer to Change-O’s documentation for comprehensive information about <a class="reference external" href="https://changeo.readthedocs.io/en/stable/install.html">installation</a>.
+You will need to pip install Presto/Change-O and also will need the associated scripts for germline
+database download.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pip<span class="w"> </span>install<span class="w"> </span>presto<span class="w"> </span>changeo
+git<span class="w"> </span>clone<span class="w"> </span>https://bitbucket.org/kleinstein/immcantation/src/master/scripts/
+<span class="nb">export</span><span class="w"> </span><span class="nv">PATH</span><span class="o">=</span><span class="nv">$PATH</span>:<span class="k">$(</span><span class="nb">pwd</span><span class="k">)</span>/scripts/scripts
+</pre></div>
+</div>
+<p>You will also need to install IgBLAST:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>wget<span class="w"> </span>https://ftp.ncbi.nih.gov/blast/executables/igblast/release/LATEST/ncbi-igblast-1.22.0-x64-linux.tar.gz
+tar<span class="w"> </span>-xzvf<span class="w"> </span>ncbi-igblast-1.22.0-x64-linux.tar.gz
+<span class="nb">export</span><span class="w"> </span><span class="nv">IGDATA</span><span class="o">=</span><span class="si">${</span><span class="nv">pwd</span><span class="si">}</span>/ncbi-igblast-1.22.0
+</pre></div>
+</div>
+<p>And receptor_utils:</p>
+</section>
+<section id="downloading-the-default-reference-sets">
+<h2>Downloading the default reference sets<a class="headerlink" href="#downloading-the-default-reference-sets" title="Link to this heading"></a></h2>
+<p>Immcantation requires a reference of C genes. This locus is not included in the AIRR-C Reference
+Set.</p>
+</section>
+<section id="downloading-the-airr-c-reference-sets">
+<h2>Downloading the AIRR-C Reference Sets<a class="headerlink" href="#downloading-the-airr-c-reference-sets" title="Link to this heading"></a></h2>
+<p>The next step is downloading and formatting the AIRR-C Reference Sets. This is <strong>in place of</strong>
+running the set up scripts (fetch_igblastdb.sh, fetch_imgtdb.sh) if you are following the Immcantation IgBLAST set up.
+We apologize for the deletion of a subdirectory of IgBLAST’s internal_data directory which is prohibited
+in the IgBLAST set-up instructions.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>mkdir<span class="w"> </span><span class="nv">$IGDATA</span>/database
+mkdir<span class="w"> </span><span class="nv">$IGDATA</span>/database/human
+rm<span class="w"> </span>-rf<span class="w"> </span><span class="nv">$IGDATA</span>/internal_data/human
+mkdir<span class="w"> </span><span class="nv">$IGDATA</span>/internal_data/human
+
+<span class="c1">##These are the AIRR-formatted JSON files, most convenient for BLAST database construction.</span>
+curl<span class="w"> </span>https://ogrdb.airr-community.org/api/germline/set/Human/IGH_VDJ/published/gapped_ex<span class="w"> </span>&gt;<span class="w"> </span>human_VDJ.fasta
+curl<span class="w"> </span>https://ogrdb.airr-community.org/api/germline/set/Human/IGKappa_VJ/published/gapped_ex<span class="w"> </span>&gt;&gt;<span class="w"> </span>human_VDJ.fasta
+curl<span class="w"> </span>https://ogrdb.airr-community.org/api/germline/set/Human/IGLambda_VJ/published/gapped_ex<span class="w"> </span>&gt;&gt;<span class="w"> </span>human_VDJ.fasta
+
+<span class="c1">##These are the AIRR-formatted JSON files, required to build the ndms files.</span>
+curl<span class="w"> </span>https://ogrdb.airr-community.org/api/germline/set/Human/IGH_VDJ/published/airr_ex<span class="w"> </span>&gt;<span class="w"> </span>human_VDJ.json
+curl<span class="w"> </span>https://ogrdb.airr-community.org/api/germline/set/Human/IGKappa_VJ/published/airr_ex<span class="w"> </span>&gt;<span class="w"> </span>human_kappa.json
+curl<span class="w"> </span>https://ogrdb.airr-community.org/api/germline/set/Human/IGLambda_VJ/published/airr_ex<span class="w"> </span>&gt;<span class="w"> </span>human_lambda.json
+</pre></div>
+</div>
+<p>Having downloaded all of the OGRDB files into a single FASTA file, we then need to split them up by locus, e.g. in Python.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">receptor_utils</span>
+<span class="n">seqs</span> <span class="o">=</span> <span class="n">receptor_utils</span><span class="o">.</span><span class="n">simple_bio_seq</span><span class="o">.</span><span class="n">read_fasta</span><span class="p">(</span><span class="s1">&#39;human_VDJ.fasta&#39;</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">gene</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;V&#39;</span><span class="p">,</span> <span class="s1">&#39;D&#39;</span><span class="p">,</span> <span class="s1">&#39;J&#39;</span><span class="p">]:</span>
+  <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;database/human/human_gl_</span><span class="si">{</span><span class="n">gene</span><span class="si">}</span><span class="s1">.fasta&#39;</span><span class="p">,</span> <span class="s1">&#39;w&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">k</span><span class="p">:</span>
+    <span class="p">[</span><span class="n">k</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;&gt;</span><span class="si">{</span><span class="n">seq_id</span><span class="si">}</span><span class="se">\n</span><span class="s1">&#39;</span> <span class="o">+</span> <span class="n">seqs</span><span class="p">[</span><span class="n">seq_id</span><span class="p">]</span> <span class="o">+</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span> <span class="k">for</span> <span class="n">seq_id</span> <span class="ow">in</span> <span class="n">seqs</span> <span class="k">if</span> <span class="n">seq_id</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span> <span class="o">==</span> <span class="n">gene</span><span class="p">]</span>
+</pre></div>
+</div>
+<p>We then need to make all of our BLAST databases and accessory files (.ndm and .aux).</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>IGDATA/bin/makeblastdb<span class="w"> </span>-parse_seqids<span class="w"> </span>-dbtype<span class="w"> </span>nucl<span class="w"> </span>-in<span class="w"> </span><span class="nv">$IGDATA</span>/database/human/human_gl_V.fasta<span class="w"> </span>-out<span class="w"> </span>human_V
+IGDATA/bin/makeblastdb<span class="w"> </span>-parse_seqids<span class="w"> </span>-dbtype<span class="w"> </span>nucl<span class="w"> </span>-in<span class="w"> </span><span class="nv">$IGDATA</span>/database/human/human_gl_V.fasta<span class="w"> </span>-out<span class="w"> </span>imgt_human_ig_v
+IGDATA/bin/makeblastdb<span class="w"> </span>-parse_seqids<span class="w"> </span>-dbtype<span class="w"> </span>nucl<span class="w"> </span>-in<span class="w"> </span><span class="nv">$IGDATA</span>/database/human/human_gl_D.fasta<span class="w"> </span>-out<span class="w"> </span>imgt_human_ig_d
+IGDATA/bin/makeblastdb<span class="w"> </span>-parse_seqids<span class="w"> </span>-dbtype<span class="w"> </span>nucl<span class="w"> </span>-in<span class="w"> </span><span class="nv">$IGDATA</span>/database/human/human_gl_J.fasta<span class="w"> </span>-out<span class="w"> </span>imgt_human_ig_j
+
+mv<span class="w"> </span>imgt_human_ig*<span class="w"> </span><span class="nv">$IGDATA</span>/database
+mv<span class="w"> </span>human_V*<span class="w"> </span><span class="nv">$IGDATA</span>/internal_data/human
+
+annotate_j<span class="w"> </span>database/human/human_gl_J.fasta<span class="w"> </span><span class="nv">$IGDATA</span>/optional_file/human_gl.aux
+
+make_igblast_ndm<span class="w"> </span>human_VDJ.json<span class="w"> </span>VH<span class="w"> </span>human_vdj.ndm.imgt
+make_igblast_ndm<span class="w"> </span>human_kappa.json<span class="w"> </span>VL<span class="w"> </span>human_vkappa.ndm.imgt
+make_igblast_ndm<span class="w"> </span>human_lambda.json<span class="w"> </span>VL<span class="w"> </span>human_vlambda.ndm.imgt
+cat<span class="w"> </span>human_vdj.ndm.imgt<span class="w"> </span>&gt;<span class="w"> </span>airrc_human.ndm.imgt
+cat<span class="w"> </span>human_vkappa.ndm.imgt<span class="w"> </span>&gt;&gt;<span class="w"> </span>airrc_human.ndm.imgt
+cat<span class="w"> </span>human_vlambda.ndm.imgt<span class="w"> </span>&gt;&gt;<span class="w"> </span>airrc_human.ndm.imgt
+
+mv<span class="w"> </span>airrc_human.ndm.imgt<span class="w"> </span><span class="nv">$IGDATA</span>/internal_data/human/human.ndm.imgt
+</pre></div>
+</div>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="igblast.html" class="btn btn-neutral float-left" title="IgBLAST stand-alone" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="mixcr.html" class="btn btn-neutral float-right" title="MiXCR" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
-    
+  <hr/>
 
-    
-  </body>
+  <div role="contentinfo">
+    <p>&#169; Copyright 2024, Eve Richardson, William Lees.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
 </html>

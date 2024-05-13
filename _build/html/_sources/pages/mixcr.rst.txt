@@ -1,39 +1,44 @@
 
-Using the AIRR-C Reference Sets with Mixcr
+MiXCR
 =======================================================
 
 Introduction
 ------------
 
-Mixcr is a widely-used tool for IG/TR analysis - they have their own references,
-which they distribute with the program. If you would like to use the AIRR-C Reference
-Sets, follow the tutorial below!
+Mixcr is an extremely widely-used tool for IG/TR analysis - Mixcr has its own references,
+which are distributed with the program.
+
+Mixcr has many presets and options for specifying how alignment is performed for different library preparation and
+sequencing methods. This tutorial reflects one example, Takara's SMART-seq for BCR with UMIs.
 
 Installation
 ---------------------------------------------------------
 
-Mixcr installation requires that you have a license.
+Mixcr installation requires that you have a license. Please refer to their website
+for all details on installation. Briefly:
 
 .. code-block:: bash
 
     wget https://github.com/milaboratory/mixcr/releases/download/v4.6.0/mixcr-4.6.0.zip
     unzip mixcr-4.6.0.zip
     ## Move to bin or add directory to your path
-    export BIN=${pwd}
+    export PATH=$PATH:$(pwd)
     mixcr activate-license
-
 
 Downloading and processing AIRR-C Reference Sets
 --------------------------------------------------------
+
+The following code block demonstrates how to download the human AIRR-C Reference Sets.
 
 .. code-block:: bash
 
     pip install biopython
     mkdir airrc_refs
-    curl https://ogrdb.airr-community.org/api/germline/set/Human/IGH_VDJ/published/ex > airrc_refs/human_VDJ.fasta
-    curl https://ogrdb.airr-community.org/api/germline/set/Human/IGKappa_VJ/published/ex >> airrc_refs/human_IGKVJ.fast
-    curl https://ogrdb.airr-community.org/api/germline/set/Human/IGLambda_VJ/published/ex >> airrc_refs/human_IGLVJ.fasta
+    curl https://ogrdb.airr-community.org/api/germline/set/Human/IGH_VDJ/published/ungapped_ex > airrc_refs/human_VDJ.fasta
+    curl https://ogrdb.airr-community.org/api/germline/set/Human/IGKappa_VJ/published/ungapped_ex >> airrc_refs/human_IGKVJ.fast
+    curl https://ogrdb.airr-community.org/api/germline/set/Human/IGLambda_VJ/published/ungapped_ex >> airrc_refs/human_IGLVJ.fasta
 
+The following code block is an example of how one can extract the V, D and J genes individually from the resultant FASTA files.
 
 .. code-block:: python
 
@@ -53,6 +58,11 @@ Downloading and processing AIRR-C Reference Sets
       with open(f'airrc_refs/{gene.lower()}-genes.IGL.fasta', 'w') as k:
         [k.write(f'>{seq_id}\n' + seqs[seq_id] + '\n') for seq_id in seqs if seq_id[3] == gene]
 
+
+Mixcr allows you to build a custom library. Again, please refer to Mixcr's documentation and the specific protocol you used
+to verify that this is optimal in your case. For Mixcr's Takara Bio preset, the entire V gene exon is intended to be used
+in the alignment step, therefore we specify "--v-region VGene".
+
 .. code-block:: bash
 
     mixcr buildLibrary --debug --v-genes-from-fasta airrc_refs/v-genes.IGH.fasta --v-gene-feature VRegion --j-genes-from-fasta airrc_refs/j-genes.IGH.fasta --d-genes-from-fasta airrc_refs/d-genes.IGH.fasta --c-genes-from-species human --chain IGH --taxon-id 9606 --species human airrc-IGH.json.gz -f
@@ -64,14 +74,33 @@ Downloading and processing AIRR-C Reference Sets
 Test
 .....
 
+To test your installation:
+
 .. code-block:: bash
 
     wget -nc ftp://ftp.sra.ebi.ac.uk/vol1/fastq/ERR595/003/ERR5952573/ERR5952573_1.fastq.gz
     wget -nc ftp://ftp.sra.ebi.ac.uk/vol1/fastq/ERR595/003/ERR5952573/ERR5952573_2.fastq.gz
+
+This is the default.
+
+.. code-block:: bash
+
     mixcr analyze takara-human-rna-bcr-umi-smartseq \
         ERR5952573_1.fastq.gz \
         ERR5952573_2.fastq.gz \
         results_default
 
+Using our new library:
+
+.. code-block:: bash
+
+    mixcr align --preset takara-human-rna-bcr-umi-smartseq ERR5952573_1.fastq.gz \
+    ERR5952573_2.fastq.gz airrc_alignments.vdjca --species human --library airrc -f
+
+    mixcr refineTagsAndSort \
+        airrc_alignments.vdjca \
+        airrc_alignments.refined.vdjca
+
+    mixcr assemble airrc_alignments.refined.vdjca airrc_clones.clns
 
 
