@@ -9,7 +9,7 @@ MiXCR is an extremely widely-used tool for IG/TR analysis - MiXCR has its own re
 which are distributed with the program.
 
 MiXCR has many presets and options for specifying how alignment is performed for different library preparation and
-sequencing methods. This tutorial reflects one example, Takara's SMART-seq for BCR with UMIs.
+sequencing methods. This tutorial reflects one example - Takara's SMART-seq for BCR with UMIs.
 
 Installation
 ---------------------------------------------------------
@@ -102,5 +102,6 @@ parts:
         airrc_alignments.refined.vdjca
 
     mixcr assemble airrc_alignments.refined.vdjca airrc_clones.clns
+
 
 
