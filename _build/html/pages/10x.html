@@ -50,7 +50,10 @@
 <li class="toctree-l1"><a class="reference internal" href="immcantation.html">Change-O</a></li>
 <li class="toctree-l1"><a class="reference internal" href="mixcr.html">MiXCR</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">10X</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="#a-brief-description-of-how-to-re-annotate">A brief description of how to re-annotate</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#a-brief-description-of-how-to-re-annotate">A brief description of how to re-annotate</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#example">Example</a></li>
+</ul>
+</li>
 </ul>
 </li>
 </ul>
@@ -94,7 +97,24 @@ via their fetch-imgt and mkvdjref scripts. Here, we just describe how to re-anno
 Change-O and get the AIRR-C Reference Set set up. Immcantation has a 10X tutorial <a class="reference external" href="https://immcantation.readthedocs.io/en/stable/getting_started/10x_tutorial.html">provided here</a> and also you can use their pipeline
 directly as described on this <a class="reference external" href="https://immcantation.readthedocs.io/en/stable/docker/pipelines.html">page</a> accompanying <a class="reference external" href="https://bitbucket.org/kleinstein/immcantation/src/master/pipelines/changeo-10x.sh">this script</a>. To briefly summarize, these scripts involve
 taking the appropriate contig FASTA file output by CellRanger, re-annotating with AssignGenes, and then passing the 10X
-flag and original contig annotation CSV file to the MakeDb command to correct the original annotations.</p>
+flag and original contig annotation CSV file to the MakeDb command to create an AIRR/Change-O format tsv file with the updated
+annotations.</p>
+<p>To summarize, we currently recommend simply re-annotating your CellRanger output with a tool like Immcantation - to do this
+with the reference sets, follow the Immcantation tutorial here for replacing the relevant directories, and then follow
+the commands as supplied in Immcantation’s 10X tutorial:</p>
+<section id="example">
+<h3>Example<a class="headerlink" href="#example" title="Link to this heading"></a></h3>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>curl<span class="w"> </span>https://zenodo.org/records/10028129/files/filtered_contig.fasta<span class="w"> </span>&gt;<span class="w"> </span>filtered_contig.fasta
+curl<span class="w"> </span>https://zenodo.org/records/10028129/files/filtered_contig_annotations.csv<span class="w"> </span>&gt;<span class="w"> </span>filtered_contig_annotations.csv
+
+AssignGenes.py<span class="w"> </span>igblast<span class="w"> </span>-s<span class="w"> </span>filtered_contig.fasta<span class="w"> </span>-b<span class="w"> </span><span class="nv">$IGDATA</span><span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--organism<span class="w"> </span>human<span class="w"> </span>--loci<span class="w"> </span>ig<span class="w"> </span>--format<span class="w"> </span>blast<span class="w"> </span>--outdir<span class="w"> </span>results<span class="w"> </span>--outname<span class="w"> </span>BCR_data_sequences
+MakeDb.py<span class="w"> </span>igblast<span class="w"> </span>-i<span class="w"> </span>results/BCR_data_sequences_igblast.fmt7<span class="w"> </span>-s<span class="w"> </span>filtered_contig.fasta<span class="w"> </span><span class="se">\</span>
+<span class="w">   </span>-r<span class="w"> </span>airrc_sets<span class="w"> </span><span class="se">\</span>
+<span class="w">   </span>--10x<span class="w"> </span>filtered_contig_annotations.csv<span class="w"> </span>--extended
+</pre></div>
+</div>
+</section>
 </section>
 </section>
 
