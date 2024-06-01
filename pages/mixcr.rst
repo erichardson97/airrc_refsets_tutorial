@@ -38,7 +38,7 @@ The following code block demonstrates how to download the human AIRR-C Reference
     curl https://ogrdb.airr-community.org/api/germline/set/Human/IGLambda_VJ/published/ungapped_ex >> airrc_refs/human_IGLVJ.fasta
 
 The following code block is an example of how one can extract the V, D and J genes individually from the resultant FASTA files
-(download Biopython first).
+(pip install Biopython first).
 
 .. code-block:: python
 
@@ -60,8 +60,7 @@ The following code block is an example of how one can extract the V, D and J gen
 
 
 MiXCR has a nice functionality for building a custom reference or "library". Again, please refer to MiXCR's documentation and the specific protocol you used
-to verify that this is optimal in your case. For Mixcr's Takara Bio preset, the entire V gene exon is intended to be used
-in the alignment step, therefore we specify "--v-region VGene".
+to verify that this is optimal in your case.
 
 .. code-block:: bash
 

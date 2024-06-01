@@ -53,9 +53,9 @@ Set.
     mkdir $IGDATA/database
     mkdir $IGDATA/database/human
     fetch_imgtdb.sh -o imgt_database
-    #clean_imgtdb.py imgt_database/human/constant/imgt_human_IGHC.fasta imgt_database/human/constant/imgt_human_IGHC.fasta
-    #clean_imgtdb.py imgt_database/human/constant/imgt_human_IGKC.fasta imgt_database/human/constant/imgt_human_IGKC.fasta
-    #clean_imgtdb.py imgt_database/human/constant/imgt_human_IGLC.fasta imgt_database/human/constant/imgt_human_IGLC.fasta
+    clean_imgtdb.py imgt_database/human/constant/imgt_human_IGHC.fasta imgt_database/human/constant/imgt_human_IGHC.fasta
+    clean_imgtdb.py imgt_database/human/constant/imgt_human_IGKC.fasta imgt_database/human/constant/imgt_human_IGKC.fasta
+    clean_imgtdb.py imgt_database/human/constant/imgt_human_IGLC.fasta imgt_database/human/constant/imgt_human_IGLC.fasta
     cat imgt_database/human/constant/imgt_human_IGHC.fasta imgt_database/human/constant/imgt_human_IGLC.fasta imgt_database/human/constant/imgt_human_IGKC.fasta > $IGDATA/database/human/imgt_human_ig_c.fasta
 
 

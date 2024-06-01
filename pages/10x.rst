@@ -14,7 +14,7 @@ assignments based on their own proprietary alignment algorithm.
 10X describes their process for customizing VDJ references `here`_ - you can for example use IMGT as a V(D)J reference
 via their fetch-imgt and mkvdjref scripts. Here, we just describe how to re-annotate which was the recommendation of
 `Irac et al (2024)`_. We recommend Immcantation - so follow the setup described in :doc:`immcantation` to install
-Change-O and get the AIRR-C References set up. Immcantation has a 10X tutorial `provided here`_ and also you can use their pipeline
+Change-O and get the AIRR-C Reference Set set up. Immcantation has a 10X tutorial `provided here`_ and also you can use their pipeline
 directly as described on this `page`_ accompanying `this script`_. To briefly summarize, these scripts involve
 taking the appropriate contig FASTA file output by CellRanger, re-annotating with AssignGenes, and then passing the 10X
 flag and original contig annotation CSV file to the MakeDb command to correct the original annotations.
