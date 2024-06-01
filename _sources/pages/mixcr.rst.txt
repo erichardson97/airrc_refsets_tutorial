@@ -24,6 +24,7 @@ for all details on installation. Briefly:
     ## Move to binary path or add directory to your path
     export PATH=$PATH:$PWD
     mixcr activate-license
+    ## Enter your key
 
 Downloading and processing AIRR-C Reference Sets
 --------------------------------------------------------
@@ -43,6 +44,7 @@ The following code block is an example of how one can extract the V, D and J gen
 .. code-block:: python
 
     from Bio import SeqIO
+
     seqs = dict((p.id, str(p.seq)) for p in SeqIO.parse('airrc_refs/human_VDJ.fasta', 'fasta'))
     for gene in ['V', 'D', 'J']:
       with open(f'airrc_refs/{gene.lower()}-genes.IGH.fasta', 'w') as k:
