@@ -92,7 +92,7 @@
 <p>MiXCR is an extremely widely-used tool for IG/TR analysis - MiXCR has its own references,
 which are distributed with the program.</p>
 <p>MiXCR has many presets and options for specifying how alignment is performed for different library preparation and
-sequencing methods. This tutorial reflects one example, Takara’s SMART-seq for BCR with UMIs.</p>
+sequencing methods. This tutorial reflects one example - Takara’s SMART-seq for BCR with UMIs.</p>
 </section>
 <section id="installation">
 <h2>Installation<a class="headerlink" href="#installation" title="Link to this heading"></a></h2>
@@ -103,6 +103,7 @@ unzip<span class="w"> </span>mixcr-4.6.0.zip
 <span class="c1">## Move to binary path or add directory to your path</span>
 <span class="nb">export</span><span class="w"> </span><span class="nv">PATH</span><span class="o">=</span><span class="nv">$PATH</span>:<span class="nv">$PWD</span>
 mixcr<span class="w"> </span>activate-license
+<span class="c1">## Enter your key</span>
 </pre></div>
 </div>
 </section>
@@ -116,8 +117,9 @@ curl<span class="w"> </span>https://ogrdb.airr-community.org/api/germline/set/Hu
 </pre></div>
 </div>
 <p>The following code block is an example of how one can extract the V, D and J genes individually from the resultant FASTA files
-(download Biopython first).</p>
+(pip install Biopython first).</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">Bio</span> <span class="kn">import</span> <span class="n">SeqIO</span>
+
 <span class="n">seqs</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">((</span><span class="n">p</span><span class="o">.</span><span class="n">id</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="n">p</span><span class="o">.</span><span class="n">seq</span><span class="p">))</span> <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">SeqIO</span><span class="o">.</span><span class="n">parse</span><span class="p">(</span><span class="s1">&#39;airrc_refs/human_VDJ.fasta&#39;</span><span class="p">,</span> <span class="s1">&#39;fasta&#39;</span><span class="p">))</span>
 <span class="k">for</span> <span class="n">gene</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;V&#39;</span><span class="p">,</span> <span class="s1">&#39;D&#39;</span><span class="p">,</span> <span class="s1">&#39;J&#39;</span><span class="p">]:</span>
   <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;airrc_refs/</span><span class="si">{</span><span class="n">gene</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span><span class="si">}</span><span class="s1">-genes.IGH.fasta&#39;</span><span class="p">,</span> <span class="s1">&#39;w&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">k</span><span class="p">:</span>
@@ -135,8 +137,7 @@ curl<span class="w"> </span>https://ogrdb.airr-community.org/api/germline/set/Hu
 </pre></div>
 </div>
 <p>MiXCR has a nice functionality for building a custom reference or “library”. Again, please refer to MiXCR’s documentation and the specific protocol you used
-to verify that this is optimal in your case. For Mixcr’s Takara Bio preset, the entire V gene exon is intended to be used
-in the alignment step, therefore we specify “–v-region VGene”.</p>
+to verify that this is optimal in your case.</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>mixcr<span class="w"> </span>buildLibrary<span class="w"> </span>--debug<span class="w"> </span>--v-genes-from-fasta<span class="w"> </span>airrc_refs/v-genes.IGH.fasta<span class="w"> </span>--v-gene-feature<span class="w"> </span>VRegion<span class="w"> </span>--j-genes-from-fasta<span class="w"> </span>airrc_refs/j-genes.IGH.fasta<span class="w"> </span>--d-genes-from-fasta<span class="w"> </span>airrc_refs/d-genes.IGH.fasta<span class="w"> </span>--c-genes-from-species<span class="w"> </span>human<span class="w"> </span>--chain<span class="w"> </span>IGH<span class="w"> </span>--taxon-id<span class="w"> </span><span class="m">9606</span><span class="w"> </span>--species<span class="w"> </span>human<span class="w"> </span>airrc-IGH.json.gz<span class="w"> </span>-f
 mixcr<span class="w"> </span>buildLibrary<span class="w"> </span>--debug<span class="w"> </span>--v-genes-from-fasta<span class="w"> </span>airrc_refs/v-genes.IGK.fasta<span class="w"> </span>--v-gene-feature<span class="w"> </span>VRegion<span class="w"> </span>--j-genes-from-fasta<span class="w"> </span>airrc_refs/j-genes.IGK.fasta<span class="w"> </span>--c-genes-from-species<span class="w"> </span>human<span class="w"> </span>--chain<span class="w"> </span>IGK<span class="w"> </span>--taxon-id<span class="w"> </span><span class="m">9606</span><span class="w"> </span>--species<span class="w"> </span>human<span class="w"> </span>airrc-IGK.json.gz<span class="w"> </span>-f
 mixcr<span class="w"> </span>buildLibrary<span class="w"> </span>--debug<span class="w"> </span>--v-genes-from-fasta<span class="w"> </span>airrc_refs/v-genes.IGL.fasta<span class="w"> </span>--v-gene-feature<span class="w"> </span>VRegion<span class="w"> </span>--j-genes-from-fasta<span class="w"> </span>airrc_refs/j-genes.IGL.fasta<span class="w"> </span>--c-genes-from-species<span class="w"> </span>human<span class="w"> </span>--chain<span class="w"> </span>IGL<span class="w"> </span>--taxon-id<span class="w"> </span><span class="m">9606</span><span class="w"> </span>--species<span class="w"> </span>human<span class="w"> </span>airrc-IGL.json.gz<span class="w"> </span>-f

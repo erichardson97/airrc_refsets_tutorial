@@ -9,7 +9,7 @@ MiXCR is an extremely widely-used tool for IG/TR analysis - MiXCR has its own re
 which are distributed with the program.
 
 MiXCR has many presets and options for specifying how alignment is performed for different library preparation and
-sequencing methods. This tutorial reflects one example, Takara's SMART-seq for BCR with UMIs.
+sequencing methods. This tutorial reflects one example - Takara's SMART-seq for BCR with UMIs.
 
 Installation
 ---------------------------------------------------------
@@ -24,6 +24,7 @@ for all details on installation. Briefly:
     ## Move to binary path or add directory to your path
     export PATH=$PATH:$PWD
     mixcr activate-license
+    ## Enter your key
 
 Downloading and processing AIRR-C Reference Sets
 --------------------------------------------------------
@@ -38,11 +39,12 @@ The following code block demonstrates how to download the human AIRR-C Reference
     curl https://ogrdb.airr-community.org/api/germline/set/Human/IGLambda_VJ/published/ungapped_ex >> airrc_refs/human_IGLVJ.fasta
 
 The following code block is an example of how one can extract the V, D and J genes individually from the resultant FASTA files
-(download Biopython first).
+(pip install Biopython first).
 
 .. code-block:: python
 
     from Bio import SeqIO
+
     seqs = dict((p.id, str(p.seq)) for p in SeqIO.parse('airrc_refs/human_VDJ.fasta', 'fasta'))
     for gene in ['V', 'D', 'J']:
       with open(f'airrc_refs/{gene.lower()}-genes.IGH.fasta', 'w') as k:
@@ -60,8 +62,7 @@ The following code block is an example of how one can extract the V, D and J gen
 
 
 MiXCR has a nice functionality for building a custom reference or "library". Again, please refer to MiXCR's documentation and the specific protocol you used
-to verify that this is optimal in your case. For Mixcr's Takara Bio preset, the entire V gene exon is intended to be used
-in the alignment step, therefore we specify "--v-region VGene".
+to verify that this is optimal in your case.
 
 .. code-block:: bash
 
@@ -103,5 +104,6 @@ parts:
         airrc_alignments.refined.vdjca
 
     mixcr assemble airrc_alignments.refined.vdjca airrc_clones.clns
+
 
 
