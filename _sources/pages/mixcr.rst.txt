@@ -5,10 +5,10 @@ MiXCR
 Introduction
 ------------
 
-Mixcr is an extremely widely-used tool for IG/TR analysis - Mixcr has its own references,
+MiXCR is an extremely widely-used tool for IG/TR analysis - MiXCR has its own references,
 which are distributed with the program.
 
-Mixcr has many presets and options for specifying how alignment is performed for different library preparation and
+MiXCR has many presets and options for specifying how alignment is performed for different library preparation and
 sequencing methods. This tutorial reflects one example, Takara's SMART-seq for BCR with UMIs.
 
 Installation
@@ -21,8 +21,8 @@ for all details on installation. Briefly:
 
     wget https://github.com/milaboratory/mixcr/releases/download/v4.6.0/mixcr-4.6.0.zip
     unzip mixcr-4.6.0.zip
-    ## Move to bin or add directory to your path
-    export PATH=$PATH:$(pwd)
+    ## Move to binary path or add directory to your path
+    export PATH=$PATH:$PWD
     mixcr activate-license
 
 Downloading and processing AIRR-C Reference Sets
@@ -32,13 +32,13 @@ The following code block demonstrates how to download the human AIRR-C Reference
 
 .. code-block:: bash
 
-    pip install biopython
     mkdir airrc_refs
     curl https://ogrdb.airr-community.org/api/germline/set/Human/IGH_VDJ/published/ungapped_ex > airrc_refs/human_VDJ.fasta
-    curl https://ogrdb.airr-community.org/api/germline/set/Human/IGKappa_VJ/published/ungapped_ex >> airrc_refs/human_IGKVJ.fast
+    curl https://ogrdb.airr-community.org/api/germline/set/Human/IGKappa_VJ/published/ungapped_ex >> airrc_refs/human_IGKVJ.fasta
     curl https://ogrdb.airr-community.org/api/germline/set/Human/IGLambda_VJ/published/ungapped_ex >> airrc_refs/human_IGLVJ.fasta
 
-The following code block is an example of how one can extract the V, D and J genes individually from the resultant FASTA files.
+The following code block is an example of how one can extract the V, D and J genes individually from the resultant FASTA files
+(download Biopython first).
 
 .. code-block:: python
 
@@ -59,7 +59,7 @@ The following code block is an example of how one can extract the V, D and J gen
         [k.write(f'>{seq_id}\n' + seqs[seq_id] + '\n') for seq_id in seqs if seq_id[3] == gene]
 
 
-Mixcr allows you to build a custom library. Again, please refer to Mixcr's documentation and the specific protocol you used
+MiXCR has a nice functionality for building a custom reference or "library". Again, please refer to MiXCR's documentation and the specific protocol you used
 to verify that this is optimal in your case. For Mixcr's Takara Bio preset, the entire V gene exon is intended to be used
 in the alignment step, therefore we specify "--v-region VGene".
 
@@ -74,14 +74,14 @@ in the alignment step, therefore we specify "--v-region VGene".
 Test
 .....
 
-To test your installation:
+To test your installation, we'll use example data as referenced by MiXCR:
 
 .. code-block:: bash
 
     wget -nc ftp://ftp.sra.ebi.ac.uk/vol1/fastq/ERR595/003/ERR5952573/ERR5952573_1.fastq.gz
     wget -nc ftp://ftp.sra.ebi.ac.uk/vol1/fastq/ERR595/003/ERR5952573/ERR5952573_2.fastq.gz
 
-This is the default.
+This would be their default using the Takara preset:
 
 .. code-block:: bash
 
@@ -90,7 +90,8 @@ This is the default.
         ERR5952573_2.fastq.gz \
         results_default
 
-Using our new library:
+To use our custom reference set, we have to split up the nice "analyze" preset into its constituent
+parts:
 
 .. code-block:: bash
 

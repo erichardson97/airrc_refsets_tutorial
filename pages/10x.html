@@ -50,7 +50,7 @@
 <li class="toctree-l1"><a class="reference internal" href="immcantation.html">Change-O</a></li>
 <li class="toctree-l1"><a class="reference internal" href="mixcr.html">MiXCR</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">10X</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="#id1">10X</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#a-brief-description-of-how-to-re-annotate">A brief description of how to re-annotate</a></li>
 </ul>
 </li>
 </ul>
@@ -81,10 +81,20 @@
              
   <section id="x">
 <h1>10X<a class="headerlink" href="#x" title="Link to this heading"></a></h1>
-<section id="id1">
-<h2>10X<a class="headerlink" href="#id1" title="Link to this heading"></a></h2>
+<section id="a-brief-description-of-how-to-re-annotate">
+<h2>A brief description of how to re-annotate<a class="headerlink" href="#a-brief-description-of-how-to-re-annotate" title="Link to this heading"></a></h2>
 <p>10X V(D)J has their own reference set, that you can download and examine with
-your CellRanger license.</p>
+your CellRanger license. This is a separate reference set from IMGT - they have their own
+checks for things like pseudogene status, which you can read about on their website <a href="#id2"><span class="problematic" id="id3">`here`_</span></a>.
+Other things to note: their default reference includes one allele per gene, and they make
+assignments based on their own proprietary alignment algorithm.</p>
+<p>10X describes their process for customizing VDJ references <a href="#id4"><span class="problematic" id="id5">`here`_</span></a> - you can for example use IMGT as a V(D)J reference
+via their fetch-imgt and mkvdjref scripts. Here, we just describe how to re-annotate which was the recommendation of
+<a class="reference external" href="https://www.nature.com/articles/s41592-024-02243-4">Irac et al (2024)</a>. We recommend Immcantation - so follow the setup described in <a class="reference internal" href="immcantation.html"><span class="doc">Change-O</span></a> to install
+Change-O and get the AIRR-C References set up. Immcantation has a 10X tutorial <a href="#id6"><span class="problematic" id="id7">`here`_</span></a> and also you can use their pipeline
+directly as described on this <a class="reference external" href="https://immcantation.readthedocs.io/en/stable/docker/pipelines.html">page</a> accompanying <a class="reference external" href="https://bitbucket.org/kleinstein/immcantation/src/master/pipelines/changeo-10x.sh">this script</a>. To briefly summarize, these scripts involve
+taking the appropriate contig FASTA file output by CellRanger, re-annotating with AssignGenes, and then passing the 10X
+flag and original contig annotation CSV file to the MakeDb command to correct the original annotations.</p>
 </section>
 </section>
 

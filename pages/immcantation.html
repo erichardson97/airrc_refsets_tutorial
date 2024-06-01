@@ -88,26 +88,28 @@
 <h1>Change-O<a class="headerlink" href="#change-o" title="Link to this heading"></a></h1>
 <section id="introduction">
 <h2>Introduction<a class="headerlink" href="#introduction" title="Link to this heading"></a></h2>
-<p><a class="reference external" href="https://changeo.readthedocs.io/en/stable/">Change-O</a> is another extremely popular toolkit for BCR repertoire analysis. There is currently less
-flexibility for inclusion of AIRR-C Reference Sets in Change-O.
-As of June 2024, if you want to use Change-O without amending the source code, you will unfortunately need to replace the “Human” data in the reference you have downloaded during set-up with
-AIRR-C Reference Sets.
-Change-O uses IgBLAST for gene assignment, so there is substantial overlap with the standalone tutorial.</p>
+<p><a class="reference external" href="https://changeo.readthedocs.io/en/stable/">Change-O</a> is an extremely popular toolkit for BCR repertoire analysis. As of June 2024, there is currently less
+flexibility for inclusion of AIRR-C Reference Sets in Change-O - if you want to use Change-O without amending the source
+code, you will unfortunately need to replace the “Human” data in the reference you have downloaded during set-up with
+AIRR-C Reference Sets. If you don’t like this, we would recommend changing the Change-O source code to allow a custom
+species, though this is clearly more involved. Change-O uses IgBLAST for gene assignment, so there is substantial overlap
+with the standalone tutorial.</p>
 </section>
 <section id="installation">
 <h2>Installation<a class="headerlink" href="#installation" title="Link to this heading"></a></h2>
 <p>Please refer to Change-O’s documentation for comprehensive information about <a class="reference external" href="https://changeo.readthedocs.io/en/stable/install.html">installation</a>.
 You will need to pip install Presto/Change-O and also will need the associated scripts for germline
-database download.</p>
+database download, as OGRDB does not contain IGC genes - you will need to use the default.</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pip<span class="w"> </span>install<span class="w"> </span>presto<span class="w"> </span>changeo
 git<span class="w"> </span>clone<span class="w"> </span>https://bitbucket.org/kleinstein/immcantation/src/master/scripts/
-<span class="nb">export</span><span class="w"> </span><span class="nv">PATH</span><span class="o">=</span><span class="nv">$PATH</span>:<span class="k">$(</span><span class="nb">pwd</span><span class="k">)</span>/scripts/scripts
+<span class="nb">export</span><span class="w"> </span><span class="nv">PATH</span><span class="o">=</span><span class="nv">$PATH</span>:<span class="nv">$PWD</span>/scripts/scripts
 </pre></div>
 </div>
 <p>You will also need to install IgBLAST:</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>wget<span class="w"> </span>https://ftp.ncbi.nih.gov/blast/executables/igblast/release/LATEST/ncbi-igblast-1.22.0-x64-linux.tar.gz
 tar<span class="w"> </span>-xzvf<span class="w"> </span>ncbi-igblast-1.22.0-x64-linux.tar.gz
-<span class="nb">export</span><span class="w"> </span><span class="nv">IGDATA</span><span class="o">=</span><span class="si">${</span><span class="nv">pwd</span><span class="si">}</span>/ncbi-igblast-1.22.0
+<span class="nb">export</span><span class="w"> </span><span class="nv">IGDATA</span><span class="o">=</span><span class="si">${</span><span class="nv">PWD</span><span class="si">}</span>/ncbi-igblast-1.22.0
+<span class="nb">export</span><span class="w"> </span><span class="nv">PATH</span><span class="o">=</span><span class="nv">$PATH</span>:<span class="nv">$IGDATA</span>/bin
 </pre></div>
 </div>
 <p>And receptor_utils:</p>
@@ -117,15 +119,15 @@ tar<span class="w"> </span>-xzvf<span class="w"> </span>ncbi-igblast-1.22.0-x64-
 </section>
 <section id="downloading-the-default-reference-sets">
 <h2>Downloading the default reference sets<a class="headerlink" href="#downloading-the-default-reference-sets" title="Link to this heading"></a></h2>
-<p>Immcantation requires a reference of C genes. This locus is not included in the AIRR-C Reference
+<p>Immcantation requires a reference of C genes. These genes are not included in the AIRR-C Reference
 Set.</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span>mkdir $IGDATA/database
 mkdir $IGDATA/database/human
 fetch_imgtdb.sh -o imgt_database
-clean_imgtdb.py imgt_database/human/constant/imgt_human_IGHC.fasta imgt_database/human/constant/imgt_human_IGHC.fasta
-clean_imgtdb.py imgt_database/human/constant/imgt_human_IGKC.fasta imgt_database/human/constant/imgt_human_IGKC.fasta
-clean_imgtdb.py imgt_database/human/constant/imgt_human_IGLC.fasta imgt_database/human/constant/imgt_human_IGLC.fasta
-cat imgt_database/human/constant/imgt_human_IGHC.fasta imgt_database/human/constant/imgt_human_IGLC.fasta imgt_database/human/constant/imgt_human_IGKC.fasta &gt; database/human/imgt_human_ig_c.fasta
+#clean_imgtdb.py imgt_database/human/constant/imgt_human_IGHC.fasta imgt_database/human/constant/imgt_human_IGHC.fasta
+#clean_imgtdb.py imgt_database/human/constant/imgt_human_IGKC.fasta imgt_database/human/constant/imgt_human_IGKC.fasta
+#clean_imgtdb.py imgt_database/human/constant/imgt_human_IGLC.fasta imgt_database/human/constant/imgt_human_IGLC.fasta
+cat imgt_database/human/constant/imgt_human_IGHC.fasta imgt_database/human/constant/imgt_human_IGLC.fasta imgt_database/human/constant/imgt_human_IGKC.fasta &gt; $IGDATA/database/human/imgt_human_ig_c.fasta
 </pre></div>
 </div>
 </section>
@@ -135,55 +137,54 @@ cat imgt_database/human/constant/imgt_human_IGHC.fasta imgt_database/human/const
 running the set up scripts (fetch_igblastdb.sh, fetch_imgtdb.sh) if you are following the Immcantation IgBLAST set up.
 We apologize for the deletion of a subdirectory of IgBLAST’s internal_data directory which is prohibited
 in the IgBLAST set-up instructions.</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>mkdir<span class="w"> </span><span class="nv">$IGDATA</span>/database
-mkdir<span class="w"> </span><span class="nv">$IGDATA</span>/database/human
-rm<span class="w"> </span>-rf<span class="w"> </span><span class="nv">$IGDATA</span>/internal_data/human
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>rm<span class="w"> </span>-rf<span class="w"> </span><span class="nv">$IGDATA</span>/internal_data/human
 mkdir<span class="w"> </span><span class="nv">$IGDATA</span>/internal_data/human
+mkdir<span class="w"> </span>airrc_files
 
-<span class="c1">##These are the AIRR-formatted JSON files, most convenient for BLAST database construction.</span>
-curl<span class="w"> </span>https://ogrdb.airr-community.org/api/germline/set/Human/IGH_VDJ/published/gapped_ex<span class="w"> </span>&gt;<span class="w"> </span>human_VDJ.fasta
-curl<span class="w"> </span>https://ogrdb.airr-community.org/api/germline/set/Human/IGKappa_VJ/published/gapped_ex<span class="w"> </span>&gt;&gt;<span class="w"> </span>human_VDJ.fasta
-curl<span class="w"> </span>https://ogrdb.airr-community.org/api/germline/set/Human/IGLambda_VJ/published/gapped_ex<span class="w"> </span>&gt;&gt;<span class="w"> </span>human_VDJ.fasta
+<span class="c1">##These are the AIRR-formatted FASTA files, most convenient for BLAST database construction.</span>
+curl<span class="w"> </span>https://ogrdb.airr-community.org/api/germline/set/Human/IGH_VDJ/published/gapped_ex<span class="w"> </span>&gt;<span class="w"> </span>airrc_files/human_VDJ.fasta
+curl<span class="w"> </span>https://ogrdb.airr-community.org/api/germline/set/Human/IGKappa_VJ/published/gapped_ex<span class="w"> </span>&gt;&gt;<span class="w"> </span>airrc_files/human_VDJ.fasta
+curl<span class="w"> </span>https://ogrdb.airr-community.org/api/germline/set/Human/IGLambda_VJ/published/gapped_ex<span class="w"> </span>&gt;&gt;<span class="w"> </span>airrc_files/human_VDJ.fasta
 
 <span class="c1">##These are the AIRR-formatted JSON files, required to build the ndms files.</span>
-curl<span class="w"> </span>https://ogrdb.airr-community.org/api/germline/set/Human/IGH_VDJ/published/airr_ex<span class="w"> </span>&gt;<span class="w"> </span>human_VDJ.json
-curl<span class="w"> </span>https://ogrdb.airr-community.org/api/germline/set/Human/IGKappa_VJ/published/airr_ex<span class="w"> </span>&gt;<span class="w"> </span>human_kappa.json
-curl<span class="w"> </span>https://ogrdb.airr-community.org/api/germline/set/Human/IGLambda_VJ/published/airr_ex<span class="w"> </span>&gt;<span class="w"> </span>human_lambda.json
+curl<span class="w"> </span>https://ogrdb.airr-community.org/api/germline/set/Human/IGH_VDJ/published/airr_ex<span class="w"> </span>&gt;<span class="w"> </span>airrc_files/human_VDJ.json
+curl<span class="w"> </span>https://ogrdb.airr-community.org/api/germline/set/Human/IGKappa_VJ/published/airr_ex<span class="w"> </span>&gt;<span class="w"> </span>airrc_files/human_kappa.json
+curl<span class="w"> </span>https://ogrdb.airr-community.org/api/germline/set/Human/IGLambda_VJ/published/airr_ex<span class="w"> </span>&gt;<span class="w"> </span>airrc_files/human_lambda.json
 </pre></div>
 </div>
 <p>Having downloaded all of the OGRDB files into a single FASTA file, we then need to split them up by locus, e.g. in Python.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">receptor_utils</span>
-<span class="n">seqs</span> <span class="o">=</span> <span class="n">receptor_utils</span><span class="o">.</span><span class="n">simple_bio_seq</span><span class="o">.</span><span class="n">read_fasta</span><span class="p">(</span><span class="s1">&#39;human_VDJ.fasta&#39;</span><span class="p">)</span>
+<span class="kn">import</span> <span class="nn">os</span>
+
+<span class="n">seqs</span> <span class="o">=</span> <span class="n">receptor_utils</span><span class="o">.</span><span class="n">simple_bio_seq</span><span class="o">.</span><span class="n">read_fasta</span><span class="p">(</span><span class="s1">&#39;airrc_files/human_VDJ.fasta&#39;</span><span class="p">)</span>
 <span class="k">for</span> <span class="n">gene</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;V&#39;</span><span class="p">,</span> <span class="s1">&#39;D&#39;</span><span class="p">,</span> <span class="s1">&#39;J&#39;</span><span class="p">]:</span>
-  <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;database/human/human_gl_</span><span class="si">{</span><span class="n">gene</span><span class="si">}</span><span class="s1">.fasta&#39;</span><span class="p">,</span> <span class="s1">&#39;w&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">k</span><span class="p">:</span>
+  <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s2">&quot;IGDATA&quot;</span><span class="p">]</span><span class="si">}</span><span class="s1">/database/human/human_gl_</span><span class="si">{</span><span class="n">gene</span><span class="si">}</span><span class="s1">.fasta&#39;</span><span class="p">,</span> <span class="s1">&#39;w&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">k</span><span class="p">:</span>
     <span class="p">[</span><span class="n">k</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;&gt;</span><span class="si">{</span><span class="n">seq_id</span><span class="si">}</span><span class="se">\n</span><span class="s1">&#39;</span> <span class="o">+</span> <span class="n">seqs</span><span class="p">[</span><span class="n">seq_id</span><span class="p">]</span> <span class="o">+</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span> <span class="k">for</span> <span class="n">seq_id</span> <span class="ow">in</span> <span class="n">seqs</span> <span class="k">if</span> <span class="n">seq_id</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span> <span class="o">==</span> <span class="n">gene</span><span class="p">]</span>
 </pre></div>
 </div>
-<p>We then need to make all of our BLAST databases and accessory files (.ndm and .aux).</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>IGDATA/bin/makeblastdb<span class="w"> </span>-parse_seqids<span class="w"> </span>-dbtype<span class="w"> </span>nucl<span class="w"> </span>-in<span class="w"> </span><span class="nv">$IGDATA</span>/database/human/human_gl_V.fasta<span class="w"> </span>-out<span class="w"> </span>human_V
-IGDATA/bin/makeblastdb<span class="w"> </span>-parse_seqids<span class="w"> </span>-dbtype<span class="w"> </span>nucl<span class="w"> </span>-in<span class="w"> </span><span class="nv">$IGDATA</span>/database/human/human_gl_V.fasta<span class="w"> </span>-out<span class="w"> </span>imgt_human_ig_v
-IGDATA/bin/makeblastdb<span class="w"> </span>-parse_seqids<span class="w"> </span>-dbtype<span class="w"> </span>nucl<span class="w"> </span>-in<span class="w"> </span><span class="nv">$IGDATA</span>/database/human/human_gl_D.fasta<span class="w"> </span>-out<span class="w"> </span>imgt_human_ig_d
-IGDATA/bin/makeblastdb<span class="w"> </span>-parse_seqids<span class="w"> </span>-dbtype<span class="w"> </span>nucl<span class="w"> </span>-in<span class="w"> </span><span class="nv">$IGDATA</span>/database/human/human_gl_J.fasta<span class="w"> </span>-out<span class="w"> </span>imgt_human_ig_j
+<p>We then need to make all of our BLAST databases and accessory files (.ndm and .aux) and the IGV BLAST
+databases that go in the internal data directory (that we daringly deleted).</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>makeblastdb<span class="w"> </span>-parse_seqids<span class="w"> </span>-dbtype<span class="w"> </span>nucl<span class="w"> </span>-in<span class="w"> </span><span class="nv">$IGDATA</span>/database/human/human_gl_V.fasta<span class="w"> </span>-out<span class="w"> </span><span class="nv">$IGDATA</span>/internal_data/human/human_V
+makeblastdb<span class="w"> </span>-parse_seqids<span class="w"> </span>-dbtype<span class="w"> </span>nucl<span class="w"> </span>-in<span class="w"> </span><span class="nv">$IGDATA</span>/database/human/human_gl_V.fasta<span class="w"> </span>-out<span class="w"> </span><span class="nv">$IGDATA</span>/database/imgt_human_ig_v
+makeblastdb<span class="w"> </span>-parse_seqids<span class="w"> </span>-dbtype<span class="w"> </span>nucl<span class="w"> </span>-in<span class="w"> </span><span class="nv">$IGDATA</span>/database/human/human_gl_D.fasta<span class="w"> </span>-out<span class="w"> </span><span class="nv">$IGDATA</span>/database/imgt_human_ig_d
+makeblastdb<span class="w"> </span>-parse_seqids<span class="w"> </span>-dbtype<span class="w"> </span>nucl<span class="w"> </span>-in<span class="w"> </span><span class="nv">$IGDATA</span>/database/human/human_gl_J.fasta<span class="w"> </span>-out<span class="w"> </span><span class="nv">$IGDATA</span>/database/imgt_human_ig_j
+makeblastdb<span class="w"> </span>-parse_seqids<span class="w"> </span>-dbtype<span class="w"> </span>nucl<span class="w"> </span>-in<span class="w"> </span><span class="nv">$IGDATA</span>/database/human/imgt_human_ig_c.fasta<span class="w"> </span>-out<span class="w"> </span><span class="nv">$IGDATA</span>/database/imgt_human_ig_c
 
-mv<span class="w"> </span>imgt_human_ig*<span class="w"> </span><span class="nv">$IGDATA</span>/database
-mv<span class="w"> </span>human_V*<span class="w"> </span><span class="nv">$IGDATA</span>/internal_data/human
+annotate_j<span class="w"> </span><span class="nv">$IGDATA</span>/database/human/human_gl_J.fasta<span class="w"> </span><span class="nv">$IGDATA</span>/optional_file/human_gl.aux
 
-annotate_j<span class="w"> </span>database/human/human_gl_J.fasta<span class="w"> </span><span class="nv">$IGDATA</span>/optional_file/human_gl.aux
-
-make_igblast_ndm<span class="w"> </span>human_VDJ.json<span class="w"> </span>VH<span class="w"> </span>human_vdj.ndm.imgt
-make_igblast_ndm<span class="w"> </span>human_kappa.json<span class="w"> </span>VL<span class="w"> </span>human_vkappa.ndm.imgt
-make_igblast_ndm<span class="w"> </span>human_lambda.json<span class="w"> </span>VL<span class="w"> </span>human_vlambda.ndm.imgt
-cat<span class="w"> </span>human_vdj.ndm.imgt<span class="w"> </span>&gt;<span class="w"> </span>airrc_human.ndm.imgt
-cat<span class="w"> </span>human_vkappa.ndm.imgt<span class="w"> </span>&gt;&gt;<span class="w"> </span>airrc_human.ndm.imgt
-cat<span class="w"> </span>human_vlambda.ndm.imgt<span class="w"> </span>&gt;&gt;<span class="w"> </span>airrc_human.ndm.imgt
-
-mv<span class="w"> </span>airrc_human.ndm.imgt<span class="w"> </span><span class="nv">$IGDATA</span>/internal_data/human/human.ndm.imgt
+make_igblast_ndm<span class="w"> </span>airrc_files/human_VDJ.json<span class="w"> </span>VH<span class="w"> </span>airrc_files/human_vdj.ndm.imgt
+make_igblast_ndm<span class="w"> </span>airrc_files/human_kappa.json<span class="w"> </span>VL<span class="w"> </span>airrc_files/human_vkappa.ndm.imgt
+make_igblast_ndm<span class="w"> </span>airrc_files/human_lambda.json<span class="w"> </span>VL<span class="w"> </span>airrc_files/human_vlambda.ndm.imgt
+cat<span class="w"> </span>airrc_files/human_vdj.ndm.imgt<span class="w"> </span>&gt;<span class="w"> </span>airrc_files/airrc_human.ndm.imgt
+cat<span class="w"> </span>airrc_files/human_vkappa.ndm.imgt<span class="w"> </span>&gt;&gt;<span class="w"> </span>airrc_files/airrc_human.ndm.imgt
+cat<span class="w"> </span>airrc_files/human_vlambda.ndm.imgt<span class="w"> </span>&gt;&gt;<span class="w"> </span>airrc_files/airrc_human.ndm.imgt
+mv<span class="w"> </span>airrc_files/airrc_human.ndm.imgt<span class="w"> </span><span class="nv">$IGDATA</span>/internal_data/human/human.ndm.imgt
 </pre></div>
 </div>
 </section>
 <section id="testing">
 <h2>Testing<a class="headerlink" href="#testing" title="Link to this heading"></a></h2>
-<p>Let’s test this using test data courtesy of the Immcantation team.</p>
+<p>Let’s test this, again using test data courtesy of the Immcantation team.</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>curl<span class="w"> </span>https://zenodo.org/records/10046916/files/input.fasta?download<span class="o">=</span><span class="m">1</span><span class="w"> </span>&gt;<span class="w"> </span>example_data.fasta
 head<span class="w"> </span>-n<span class="w"> </span><span class="m">51</span><span class="w"> </span>example_data.fasta<span class="w"> </span>&gt;<span class="w"> </span>example_data_mini.fasta
 AssignGenes.py<span class="w"> </span>igblast<span class="w"> </span>-s<span class="w"> </span>example_data_mini.fasta<span class="w"> </span>-b<span class="w"> </span><span class="nv">$IGDATA</span><span class="w"> </span>--organism<span class="w"> </span>human<span class="w"> </span>--loci<span class="w"> </span>ig<span class="w"> </span>--format<span class="w"> </span>airr
