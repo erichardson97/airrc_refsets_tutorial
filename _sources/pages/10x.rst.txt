@@ -17,7 +17,26 @@ via their fetch-imgt and mkvdjref scripts. Here, we just describe how to re-anno
 Change-O and get the AIRR-C Reference Set set up. Immcantation has a 10X tutorial `provided here`_ and also you can use their pipeline
 directly as described on this `page`_ accompanying `this script`_. To briefly summarize, these scripts involve
 taking the appropriate contig FASTA file output by CellRanger, re-annotating with AssignGenes, and then passing the 10X
-flag and original contig annotation CSV file to the MakeDb command to correct the original annotations.
+flag and original contig annotation CSV file to the MakeDb command to create an AIRR/Change-O format tsv file with the updated
+annotations.
+
+To summarize, we currently recommend simply re-annotating your CellRanger output with a tool like Immcantation - to do this
+with the reference sets, follow the Immcantation tutorial here for replacing the relevant directories, and then follow
+the commands as supplied in Immcantation's 10X tutorial:
+
+Example
+.......
+
+.. code-block:: bash
+
+    curl https://zenodo.org/records/10028129/files/filtered_contig.fasta > filtered_contig.fasta
+    curl https://zenodo.org/records/10028129/files/filtered_contig_annotations.csv > filtered_contig_annotations.csv
+
+    AssignGenes.py igblast -s filtered_contig.fasta -b $IGDATA \
+        --organism human --loci ig --format blast --outdir results --outname BCR_data_sequences
+    MakeDb.py igblast -i results/BCR_data_sequences_igblast.fmt7 -s filtered_contig.fasta \
+       -r airrc_sets \
+       --10x filtered_contig_annotations.csv --extended
 
 .. _`here`: https://support.10xgenomics.com/single-cell-vdj/software/pipelines/latest/advanced/references#imgt
 .. _`Irac et al (2024)`: https://www.nature.com/articles/s41592-024-02243-4
