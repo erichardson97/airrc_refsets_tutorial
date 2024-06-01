@@ -21,8 +21,8 @@
     <script src="../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="Using the AIRR-C Reference Sets as standalone" href="immcantation.html" />
-    <link rel="prev" title="OGRDB API" href="ogrdb.html" /> 
+    <link rel="next" title="Change-O" href="immcantation.html" />
+    <link rel="prev" title="OGRDB REST API" href="ogrdb.html" /> 
 </head>
 
 <body class="wy-body-for-nav"> 
@@ -46,7 +46,7 @@
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <p class="caption" role="heading"><span class="caption-text">Contents</span></p>
 <ul class="current">
-<li class="toctree-l1"><a class="reference internal" href="ogrdb.html">OGRDB API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ogrdb.html">OGRDB REST API</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">IgBLAST stand-alone</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#introduction">Introduction</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#installation">Installation</a></li>
@@ -56,9 +56,9 @@
 <li class="toctree-l2"><a class="reference internal" href="#testing">Testing</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="immcantation.html">Using the AIRR-C Reference Sets as standalone</a></li>
-<li class="toctree-l1"><a class="reference internal" href="mixcr.html">Using the AIRR-C Reference Sets with Mixcr</a></li>
-<li class="toctree-l1"><a class="reference internal" href="10x.html">Using the AIRR-C Reference Sets in 10X</a></li>
+<li class="toctree-l1"><a class="reference internal" href="immcantation.html">Change-O</a></li>
+<li class="toctree-l1"><a class="reference internal" href="mixcr.html">MiXCR</a></li>
+<li class="toctree-l1"><a class="reference internal" href="10x.html">10X</a></li>
 </ul>
 
         </div>
@@ -89,17 +89,18 @@
 <h1>IgBLAST stand-alone<a class="headerlink" href="#igblast-stand-alone" title="Link to this heading"></a></h1>
 <section id="introduction">
 <h2>Introduction<a class="headerlink" href="#introduction" title="Link to this heading"></a></h2>
-<p>IgBLAST developers have made strides to include AIRR-C Reference Sets for users and
-you can easily specify this with the dropdown button on the IgBLAST webserver.
-For further information about using IgBLAST, refer to their guide.</p>
+<p>IgBLAST developers have made strides to include AIRR-C Reference Sets for users and you can easily specify this with the
+dropdown button on the IgBLAST webserver. For further information about using IgBLAST, refer to their guide.</p>
 </section>
 <section id="installation">
 <h2>Installation<a class="headerlink" href="#installation" title="Link to this heading"></a></h2>
 <p>Assuming you don’t already have an IgBLAST installation, download IgBLAST and
-set your $IGDATA variable so that your interpreter knows where the binary lives.</p>
+set your $IGDATA variable so that IgBLAST knows where to find the internal_data directory. You can also
+either move the executables to your $PATH, or tell the interpreter where to find the IgBLAST binaries:</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>wget<span class="w"> </span>https://ftp.ncbi.nih.gov/blast/executables/igblast/release/LATEST/ncbi-igblast-1.22.0-x64-linux.tar.gz
 tar<span class="w"> </span>-xvzf<span class="w"> </span>ncbi-igblast-1.22.0-x64-linux.tar.gz
-<span class="nb">export</span><span class="w"> </span><span class="nv">IGDATA</span><span class="o">=</span><span class="si">${</span><span class="nv">pwd</span><span class="si">}</span>/ncbi-igblast-1.22.0
+<span class="nb">export</span><span class="w"> </span><span class="nv">IGDATA</span><span class="o">=</span><span class="si">${</span><span class="nv">PWD</span><span class="si">}</span>/ncbi-igblast-1.22.0
+<span class="nb">export</span><span class="w"> </span><span class="nv">PATH</span><span class="o">=</span><span class="nv">$PATH</span>:<span class="nv">$IGDATA</span>/bin
 </pre></div>
 </div>
 <p>To follow the remainder of the steps, you will also need to install receptor_utils.</p>
@@ -115,6 +116,13 @@ to IgBLAST via its -germline_db_V, -germline_db_J and -germline_db_D arguments. 
 use AIRR-C Reference Sets, we need to download the AIRR-C versions of these BLAST databases.
 The developers of IgBLAST kindly make these available via the ftp server - or you can build
 your own.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>mkdir<span class="w"> </span><span class="nv">$IGDATA</span>/databases
+wget<span class="w"> </span>https://ftp.ncbi.nih.gov/blast/executables/igblast/release/database/airr/airr_c_human.tar
+tar<span class="w"> </span>-f<span class="w"> </span>airr_c_human.tar<span class="w"> </span>-C<span class="w"> </span><span class="nv">$IGDATA</span>/databases
+</pre></div>
+</div>
+<p>If you look in your $IGDATA/databases directory, you should see the following:</p>
+<a class="reference internal image-reference" href="../_images/igblast_screenshot.png"><img alt="../_images/igblast_screenshot.png" src="../_images/igblast_screenshot.png" style="width: 600px;" /></a>
 <p>In addition to these databases, IgBLAST has its own data directory called “internal_data”,
 which you are warned not to touch except for making your own custom species directories, as
 well as “auxiliary_data”. To use the AIRR-C Reference Sets with full IgBLAST capabilities (i.e.
@@ -125,51 +133,76 @@ CDR annotation), you will need to create two file types using the receptor_utils
 <li><p>.aux file: the aux file contains CDR3 coordinates for the J genes in your reference.</p></li>
 </ol>
 <p>You can supply the paths to these new files when you run IgBLAST as a standalone using the
-“-custom_internal_data” and “-auxiliary_data” flags.</p>
+“-custom_internal_data” and “-auxiliary_data” flags. Because you’ll be supplying the path yourself,
+put them where you’d like - in the example below we keep it in a neat AIRR-C directory and put the
+resultant files in the internal_data and optional_file directories.</p>
 </section>
 <section id="creating-the-ndm-file">
 <h2>Creating the .ndm file<a class="headerlink" href="#creating-the-ndm-file" title="Link to this heading"></a></h2>
 <p>The .ndm file contains the CDR/FWR annotations for the V gene database.
 The best way to do this is using the AIRR-formatted JSON file retrieved by the OGRDB API.
 Retrieve for all three loci, run receptor_util’s make_ndm executable, and combine into a single .ndm file.</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>curl<span class="w"> </span>https://ogrdb.airr-community.org/api/germline/set/Human/IGH_VDJ/published/airr_ex<span class="w"> </span>&gt;<span class="w"> </span>human_VDJ.json
-curl<span class="w"> </span>https://ogrdb.airr-community.org/api/germline/set/Human/IGKappa_VJ/published/airr_ex<span class="w"> </span>&gt;<span class="w"> </span>human_kappa.json
-curl<span class="w"> </span>https://ogrdb.airr-community.org/api/germline/set/Human/IGLambda_VJ/published/airr_ex<span class="w"> </span>&gt;<span class="w"> </span>human_lambda.json
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>mkdir<span class="w"> </span>airrc_sets
+
+curl<span class="w"> </span>https://ogrdb.airr-community.org/api/germline/set/Human/IGH_VDJ/published/airr_ex<span class="w"> </span>&gt;<span class="w"> </span>airrc_sets/human_VDJ.json
+curl<span class="w"> </span>https://ogrdb.airr-community.org/api/germline/set/Human/IGKappa_VJ/published/airr_ex<span class="w"> </span>&gt;<span class="w"> </span>airrc_sets/human_kappa.json
+curl<span class="w"> </span>https://ogrdb.airr-community.org/api/germline/set/Human/IGLambda_VJ/published/airr_ex<span class="w"> </span>&gt;<span class="w"> </span>airrc_sets/human_lambda.json
 
 
-make_igblast_ndm<span class="w"> </span>human_VDJ.json<span class="w"> </span>VH<span class="w"> </span>human_vdj.ndm.imgt
-make_igblast_ndm<span class="w"> </span>human_kappa.json<span class="w"> </span>VL<span class="w"> </span>human_vkappa.ndm.imgt
-make_igblast_ndm<span class="w"> </span>human_lambda.json<span class="w"> </span>VL<span class="w"> </span>human_vlambda.ndm.imgt
+make_igblast_ndm<span class="w"> </span>airrc_sets/human_VDJ.json<span class="w"> </span>VH<span class="w"> </span>airrc_sets/human_vdj.ndm.imgt
+make_igblast_ndm<span class="w"> </span>airrc_sets/human_kappa.json<span class="w"> </span>VL<span class="w"> </span>airrc_sets/human_vkappa.ndm.imgt
+make_igblast_ndm<span class="w"> </span>airrc_sets/human_lambda.json<span class="w"> </span>VL<span class="w"> </span>airrc_sets/human_vlambda.ndm.imgt
 
-cat<span class="w"> </span>human_vdj.ndm.imgt<span class="w"> </span>&gt;<span class="w"> </span>airrc_human.ndm.imgt
-cat<span class="w"> </span>human_vkappa.ndm.imgt<span class="w"> </span>&gt;&gt;<span class="w"> </span>airrc_human.ndm.imgt
-cat<span class="w"> </span>human_vlambda.ndm.imgt<span class="w"> </span>&gt;&gt;<span class="w"> </span>airrc_human.ndm.imgt
+cat<span class="w"> </span>airrc_sets/human_vdj.ndm.imgt<span class="w"> </span>&gt;<span class="w"> </span>airrc_sets/airrc_human.ndm.imgt
+cat<span class="w"> </span>airrc_sets/human_vkappa.ndm.imgt<span class="w"> </span>&gt;&gt;<span class="w"> </span>airrc_sets/airrc_human.ndm.imgt
+cat<span class="w"> </span>airrc_sets/human_vlambda.ndm.imgt<span class="w"> </span>&gt;&gt;<span class="w"> </span>airrc_sets/airrc_human.ndm.imgt
 
 mkdir<span class="w"> </span><span class="nv">$IGDATA</span>/internal_data/airrc_human
-mv<span class="w"> </span>airrc_human.ndm.imgt<span class="w"> </span><span class="nv">$IGDATA</span>/internal_data/airrc_human
+mv<span class="w"> </span>airrc_sets/airrc_human.ndm.imgt<span class="w"> </span><span class="nv">$IGDATA</span>/internal_data/airrc_human
 </pre></div>
 </div>
 </section>
 <section id="creating-the-aux-file">
 <h2>Creating the .aux file<a class="headerlink" href="#creating-the-aux-file" title="Link to this heading"></a></h2>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>annotate_j<span class="w"> </span>/content/ncbi-igblast-1.22.0/database/airrc_human/human_gl_J.fasta<span class="w"> </span>/content/ncbi-igblast-1.22.0/optional_file/airrc_human_gl.aux
+<p>The .aux file tells IgBLAST where to find the CDR3 coordinates in the IGJ genes. Again, this file cannot be downloaded
+currently from IgBLAST. To do so, we need to download and parse the FASTA files from OGRDB to create a unified IGJ FASTA
+for all the IG loci. Download the FASTAs:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>curl<span class="w"> </span>https://ogrdb.airr-community.org/api/germline/set/Human/IGH_VDJ/published/gapped_ex<span class="w"> </span>&gt;<span class="w"> </span>airrc_sets/human_VDJ.fasta
+curl<span class="w"> </span>https://ogrdb.airr-community.org/api/germline/set/Human/IGKappa_VJ/published/gapped_ex<span class="w"> </span>&gt;&gt;<span class="w"> </span>airrc_sets/human_VDJ.fasta
+curl<span class="w"> </span>https://ogrdb.airr-community.org/api/germline/set/Human/IGLambda_VJ/published/gapped_ex<span class="w"> </span>&gt;&gt;<span class="w"> </span>airrc_sets/human_VDJ.fasta
 </pre></div>
 </div>
+<p>Excuse the Python - a code example for filtering each gene:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">receptor_utils</span>
+<span class="kn">import</span> <span class="nn">os</span>
+
+<span class="n">seqs</span> <span class="o">=</span> <span class="n">receptor_utils</span><span class="o">.</span><span class="n">simple_bio_seq</span><span class="o">.</span><span class="n">read_fasta</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="s1">&#39;airrc_sets&#39;</span><span class="p">,</span> <span class="s1">&#39;human_VDJ.fasta&#39;</span><span class="p">))</span>
+<span class="k">for</span> <span class="n">gene</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;V&#39;</span><span class="p">,</span> <span class="s1">&#39;D&#39;</span><span class="p">,</span> <span class="s1">&#39;J&#39;</span><span class="p">]:</span>
+    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;airrc_sets/human_gl_</span><span class="si">{</span><span class="n">gene</span><span class="si">}</span><span class="s1">.fasta&#39;</span><span class="p">,</span> <span class="s1">&#39;w&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">k</span><span class="p">:</span>
+        <span class="p">[</span><span class="n">k</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;&gt;</span><span class="si">{</span><span class="n">seq_id</span><span class="si">}</span><span class="se">\n</span><span class="s1">&#39;</span> <span class="o">+</span> <span class="n">seqs</span><span class="p">[</span><span class="n">seq_id</span><span class="p">]</span> <span class="o">+</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span> <span class="k">for</span> <span class="n">seq_id</span> <span class="ow">in</span> <span class="n">seqs</span> <span class="k">if</span> <span class="n">seq_id</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span> <span class="o">==</span> <span class="n">gene</span><span class="p">]</span>
+</pre></div>
+</div>
+<p>Now, we run “annotate_j” which you installed as part of receptor_utils:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>annotate_j<span class="w"> </span>airrc_sets/human_gl_J.fasta<span class="w"> </span><span class="nv">$IGDATA</span>/optional_file/airrc_human_gl.aux
+</pre></div>
+</div>
+<p>You now have all the files IgBLAST needs: the BLAST databases, and the coordinate files (.ndm + .aux).</p>
 </section>
 <section id="testing">
 <h2>Testing<a class="headerlink" href="#testing" title="Link to this heading"></a></h2>
-<p>Let’s test this using test data courtesy of the Immcantation team.</p>
+<p>Let’s test our installation using test data courtesy of the Immcantation team.</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>curl<span class="w"> </span>https://zenodo.org/records/10046916/files/input.fasta?download<span class="o">=</span><span class="m">1</span><span class="w"> </span>&gt;<span class="w"> </span>example_data.fasta
 head<span class="w"> </span>-n<span class="w"> </span><span class="m">51</span><span class="w"> </span>example_data.fasta<span class="w"> </span>&gt;<span class="w"> </span>example_data_mini.fasta
 
-igblastn<span class="w"> </span>-germline_db_V<span class="w"> </span><span class="nv">$IGDATA</span>/database/airrc_human/airr_c_human_ig.V<span class="w"> </span><span class="se">\</span>
-<span class="w">        </span>-germline_db_J<span class="w"> </span><span class="nv">$IGDATA</span>/database/airrc_human/airr_c_human_ig.J<span class="w"> </span><span class="se">\</span>
-<span class="w">            </span>-germline_db_D<span class="w"> </span><span class="nv">$IGDATA</span>/database/airrc_human/airr_c_human_igh.D<span class="w"> </span><span class="se">\</span>
+igblastn<span class="w"> </span>-germline_db_V<span class="w"> </span><span class="nv">$IGDATA</span>/databases/airr_c_human_ig.V<span class="w"> </span><span class="se">\</span>
+<span class="w">        </span>-germline_db_J<span class="w"> </span><span class="nv">$IGDATA</span>/databases/airr_c_human_ig.J<span class="w"> </span><span class="se">\</span>
+<span class="w">            </span>-germline_db_D<span class="w"> </span><span class="nv">$IGDATA</span>/databases/airr_c_human_igh.D<span class="w"> </span><span class="se">\</span>
 <span class="w">            </span>-custom_internal_data<span class="w"> </span><span class="nv">$IGDATA</span>/internal_data/airrc_human/airrc_human.ndm.imgt<span class="w"> </span><span class="se">\</span>
 <span class="w">    </span>-query<span class="w"> </span>example_data_mini.fasta<span class="w"> </span>-auxiliary_data<span class="w"> </span><span class="nv">$IGDATA</span>/optional_file/airrc_human_gl.aux<span class="w"> </span><span class="se">\</span>
 <span class="w">        </span>-show_translation<span class="w"> </span>-outfmt<span class="w"> </span><span class="s1">&#39;7 std qseq sseq btop&#39;</span><span class="w"> </span>&gt;<span class="w"> </span>test_output.fmt7
 </pre></div>
 </div>
+<p>And there you have it!</p>
 </section>
 </section>
 
@@ -177,8 +210,8 @@ igblastn<span class="w"> </span>-germline_db_V<span class="w"> </span><span clas
            </div>
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
-        <a href="ogrdb.html" class="btn btn-neutral float-left" title="OGRDB API" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
-        <a href="immcantation.html" class="btn btn-neutral float-right" title="Using the AIRR-C Reference Sets as standalone" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="ogrdb.html" class="btn btn-neutral float-left" title="OGRDB REST API" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="immcantation.html" class="btn btn-neutral float-right" title="Change-O" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>

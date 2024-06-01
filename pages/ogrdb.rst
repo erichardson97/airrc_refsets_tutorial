@@ -7,6 +7,7 @@ is the de facto reference for matters concerning the germline sets.
 Germline sets can be accessed from both the OGRDB webserver and the `REST API`_.
 The germline sets are versioned (each version is also hosted on Zenodo) for reproducibility.
 
+Below is a graphical representation of OGRDB's REST API which is used in the following sections.
 
 .. image:: images/anatomy_of_api.png
     :width: 600

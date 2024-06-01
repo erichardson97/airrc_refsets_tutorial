@@ -2,8 +2,25 @@
 10X
 =======================================================
 
-10X
-------------
+A brief description of how to re-annotate
+-----------------------------------------
 
 10X V(D)J has their own reference set, that you can download and examine with
-your CellRanger license.
+your CellRanger license. This is a separate reference set from IMGT - they have their own
+checks for things like pseudogene status, which you can read about on their website `here`_.
+Other things to note: their default reference includes one allele per gene, and they make
+assignments based on their own proprietary alignment algorithm.
+
+10X describes their process for customizing VDJ references `here`_ - you can for example use IMGT as a V(D)J reference
+via their fetch-imgt and mkvdjref scripts. Here, we just describe how to re-annotate which was the recommendation of
+`Irac et al (2024)`_. We recommend Immcantation - so follow the setup described in :doc:`immcantation` to install
+Change-O and get the AIRR-C References set up. Immcantation has a 10X tutorial `here`_ and also you can use their pipeline
+directly as described on this `page`_ accompanying `this script`_. To briefly summarize, these scripts involve
+taking the appropriate contig FASTA file output by CellRanger, re-annotating with AssignGenes, and then passing the 10X
+flag and original contig annotation CSV file to the MakeDb command to correct the original annotations.
+
+.. _`here`: https://support.10xgenomics.com/single-cell-vdj/software/pipelines/latest/advanced/references#imgt
+.. _`Irac et al (2024)`: https://www.nature.com/articles/s41592-024-02243-4
+.. _`here`: https://immcantation.readthedocs.io/en/stable/getting_started/10x_tutorial.html
+.. _`page`: https://immcantation.readthedocs.io/en/stable/docker/pipelines.html
+.. _`this script`: https://bitbucket.org/kleinstein/immcantation/src/master/pipelines/changeo-10x.sh
