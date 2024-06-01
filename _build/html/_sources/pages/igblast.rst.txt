@@ -53,7 +53,7 @@ If you look in your $IGDATA/databases directory, you should see the following:
 
 In addition to these databases, IgBLAST has its own data directory called "internal_data",
 which you are warned not to touch except for making your own custom species directories, as
-well as "auxiliary_data". To use the AIRR-C Reference Sets with full IgBLAST capabilities (i.e.
+well as "optional_files". To use the AIRR-C Reference Sets with full IgBLAST capabilities (i.e.
 CDR annotation), you will need to create two file types using the receptor_utils package.
 
 These are:

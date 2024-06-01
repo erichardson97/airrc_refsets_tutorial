@@ -46,7 +46,7 @@
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <p class="caption" role="heading"><span class="caption-text">Contents</span></p>
 <ul class="current">
-<li class="toctree-l1"><a class="reference internal" href="ogrdb.html">OGRDB API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ogrdb.html">OGRDB REST API</a></li>
 <li class="toctree-l1"><a class="reference internal" href="igblast.html">IgBLAST stand-alone</a></li>
 <li class="toctree-l1"><a class="reference internal" href="immcantation.html">Change-O</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">MiXCR</a><ul>
@@ -89,9 +89,9 @@
 <h1>MiXCR<a class="headerlink" href="#mixcr" title="Link to this heading"></a></h1>
 <section id="introduction">
 <h2>Introduction<a class="headerlink" href="#introduction" title="Link to this heading"></a></h2>
-<p>Mixcr is an extremely widely-used tool for IG/TR analysis - Mixcr has its own references,
+<p>MiXCR is an extremely widely-used tool for IG/TR analysis - MiXCR has its own references,
 which are distributed with the program.</p>
-<p>Mixcr has many presets and options for specifying how alignment is performed for different library preparation and
+<p>MiXCR has many presets and options for specifying how alignment is performed for different library preparation and
 sequencing methods. This tutorial reflects one example, Takara’s SMART-seq for BCR with UMIs.</p>
 </section>
 <section id="installation">
@@ -100,8 +100,8 @@ sequencing methods. This tutorial reflects one example, Takara’s SMART-seq for
 for all details on installation. Briefly:</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>wget<span class="w"> </span>https://github.com/milaboratory/mixcr/releases/download/v4.6.0/mixcr-4.6.0.zip
 unzip<span class="w"> </span>mixcr-4.6.0.zip
-<span class="c1">## Move to bin or add directory to your path</span>
-<span class="nb">export</span><span class="w"> </span><span class="nv">PATH</span><span class="o">=</span><span class="nv">$PATH</span>:<span class="k">$(</span><span class="nb">pwd</span><span class="k">)</span>
+<span class="c1">## Move to binary path or add directory to your path</span>
+<span class="nb">export</span><span class="w"> </span><span class="nv">PATH</span><span class="o">=</span><span class="nv">$PATH</span>:<span class="nv">$PWD</span>
 mixcr<span class="w"> </span>activate-license
 </pre></div>
 </div>
@@ -109,14 +109,14 @@ mixcr<span class="w"> </span>activate-license
 <section id="downloading-and-processing-airr-c-reference-sets">
 <h2>Downloading and processing AIRR-C Reference Sets<a class="headerlink" href="#downloading-and-processing-airr-c-reference-sets" title="Link to this heading"></a></h2>
 <p>The following code block demonstrates how to download the human AIRR-C Reference Sets.</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pip<span class="w"> </span>install<span class="w"> </span>biopython
-mkdir<span class="w"> </span>airrc_refs
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>mkdir<span class="w"> </span>airrc_refs
 curl<span class="w"> </span>https://ogrdb.airr-community.org/api/germline/set/Human/IGH_VDJ/published/ungapped_ex<span class="w"> </span>&gt;<span class="w"> </span>airrc_refs/human_VDJ.fasta
-curl<span class="w"> </span>https://ogrdb.airr-community.org/api/germline/set/Human/IGKappa_VJ/published/ungapped_ex<span class="w"> </span>&gt;&gt;<span class="w"> </span>airrc_refs/human_IGKVJ.fast
+curl<span class="w"> </span>https://ogrdb.airr-community.org/api/germline/set/Human/IGKappa_VJ/published/ungapped_ex<span class="w"> </span>&gt;&gt;<span class="w"> </span>airrc_refs/human_IGKVJ.fasta
 curl<span class="w"> </span>https://ogrdb.airr-community.org/api/germline/set/Human/IGLambda_VJ/published/ungapped_ex<span class="w"> </span>&gt;&gt;<span class="w"> </span>airrc_refs/human_IGLVJ.fasta
 </pre></div>
 </div>
-<p>The following code block is an example of how one can extract the V, D and J genes individually from the resultant FASTA files.</p>
+<p>The following code block is an example of how one can extract the V, D and J genes individually from the resultant FASTA files
+(download Biopython first).</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">Bio</span> <span class="kn">import</span> <span class="n">SeqIO</span>
 <span class="n">seqs</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">((</span><span class="n">p</span><span class="o">.</span><span class="n">id</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="n">p</span><span class="o">.</span><span class="n">seq</span><span class="p">))</span> <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">SeqIO</span><span class="o">.</span><span class="n">parse</span><span class="p">(</span><span class="s1">&#39;airrc_refs/human_VDJ.fasta&#39;</span><span class="p">,</span> <span class="s1">&#39;fasta&#39;</span><span class="p">))</span>
 <span class="k">for</span> <span class="n">gene</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;V&#39;</span><span class="p">,</span> <span class="s1">&#39;D&#39;</span><span class="p">,</span> <span class="s1">&#39;J&#39;</span><span class="p">]:</span>
@@ -134,7 +134,7 @@ curl<span class="w"> </span>https://ogrdb.airr-community.org/api/germline/set/Hu
     <span class="p">[</span><span class="n">k</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;&gt;</span><span class="si">{</span><span class="n">seq_id</span><span class="si">}</span><span class="se">\n</span><span class="s1">&#39;</span> <span class="o">+</span> <span class="n">seqs</span><span class="p">[</span><span class="n">seq_id</span><span class="p">]</span> <span class="o">+</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span> <span class="k">for</span> <span class="n">seq_id</span> <span class="ow">in</span> <span class="n">seqs</span> <span class="k">if</span> <span class="n">seq_id</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span> <span class="o">==</span> <span class="n">gene</span><span class="p">]</span>
 </pre></div>
 </div>
-<p>Mixcr allows you to build a custom library. Again, please refer to Mixcr’s documentation and the specific protocol you used
+<p>MiXCR has a nice functionality for building a custom reference or “library”. Again, please refer to MiXCR’s documentation and the specific protocol you used
 to verify that this is optimal in your case. For Mixcr’s Takara Bio preset, the entire V gene exon is intended to be used
 in the alignment step, therefore we specify “–v-region VGene”.</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>mixcr<span class="w"> </span>buildLibrary<span class="w"> </span>--debug<span class="w"> </span>--v-genes-from-fasta<span class="w"> </span>airrc_refs/v-genes.IGH.fasta<span class="w"> </span>--v-gene-feature<span class="w"> </span>VRegion<span class="w"> </span>--j-genes-from-fasta<span class="w"> </span>airrc_refs/j-genes.IGH.fasta<span class="w"> </span>--d-genes-from-fasta<span class="w"> </span>airrc_refs/d-genes.IGH.fasta<span class="w"> </span>--c-genes-from-species<span class="w"> </span>human<span class="w"> </span>--chain<span class="w"> </span>IGH<span class="w"> </span>--taxon-id<span class="w"> </span><span class="m">9606</span><span class="w"> </span>--species<span class="w"> </span>human<span class="w"> </span>airrc-IGH.json.gz<span class="w"> </span>-f
@@ -145,19 +145,20 @@ mixcr<span class="w"> </span>mergeLibrary<span class="w"> </span>airrc-IGH.json.
 </div>
 <section id="test">
 <h3>Test<a class="headerlink" href="#test" title="Link to this heading"></a></h3>
-<p>To test your installation:</p>
+<p>To test your installation, we’ll use example data as referenced by MiXCR:</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>wget<span class="w"> </span>-nc<span class="w"> </span>ftp://ftp.sra.ebi.ac.uk/vol1/fastq/ERR595/003/ERR5952573/ERR5952573_1.fastq.gz
 wget<span class="w"> </span>-nc<span class="w"> </span>ftp://ftp.sra.ebi.ac.uk/vol1/fastq/ERR595/003/ERR5952573/ERR5952573_2.fastq.gz
 </pre></div>
 </div>
-<p>This is the default.</p>
+<p>This would be their default using the Takara preset:</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>mixcr<span class="w"> </span>analyze<span class="w"> </span>takara-human-rna-bcr-umi-smartseq<span class="w"> </span><span class="se">\</span>
 <span class="w">    </span>ERR5952573_1.fastq.gz<span class="w"> </span><span class="se">\</span>
 <span class="w">    </span>ERR5952573_2.fastq.gz<span class="w"> </span><span class="se">\</span>
 <span class="w">    </span>results_default
 </pre></div>
 </div>
-<p>Using our new library:</p>
+<p>To use our custom reference set, we have to split up the nice “analyze” preset into its constituent
+parts:</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>mixcr<span class="w"> </span>align<span class="w"> </span>--preset<span class="w"> </span>takara-human-rna-bcr-umi-smartseq<span class="w"> </span>ERR5952573_1.fastq.gz<span class="w"> </span><span class="se">\</span>
 ERR5952573_2.fastq.gz<span class="w"> </span>airrc_alignments.vdjca<span class="w"> </span>--species<span class="w"> </span>human<span class="w"> </span>--library<span class="w"> </span>airrc<span class="w"> </span>-f
 
